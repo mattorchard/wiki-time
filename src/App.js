@@ -3,16 +3,14 @@ import firebase from "firebase/app";
 import EntityForm from "./components/EntityForm";
 import "./styles/reset.css";
 import "./styles/global.css";
-import AccountBadge from "./components/AccountBadge";
 import publicFirebaseConfig from "./public-firebase-config";
+import AppHeader from "./components/AppHeader";
+
 firebase.initializeApp(publicFirebaseConfig);
 
 const App = (
   <div>
-    <header>
-      <h1>Wiki Time</h1>
-      <AccountBadge />
-    </header>
+    <AppHeader />
     <section>
       <EntityForm />
     </section>

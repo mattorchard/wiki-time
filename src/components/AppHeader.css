@@ -1,0 +1,13 @@
+.app-header {
+    display: flex;
+    padding: 0.25em;
+    border-bottom: .2em solid var(--color-primary);
+}
+.app-header__brand {
+    font-size: 3rem;
+    user-select: none;
+    font-weight: bold;
+}
+.app-header__actions {
+    margin-left: auto;
+}

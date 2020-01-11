@@ -6,7 +6,11 @@ import "./AccountBadge.css";
 const AccountBadge = () => {
   const { currentUser, loggedIn, loading } = useAuthState();
   if (loading) {
-    return <Spinner />;
+    return (
+      <div className="account-badge">
+        <Spinner color="black" />
+      </div>
+    );
   } else if (!loggedIn) {
     return (
       <button className="btn" type="button" onClick={login}>
@@ -14,7 +18,7 @@ const AccountBadge = () => {
       </button>
     );
   }
-  if (currentUser.photoURL && false) {
+  if (currentUser.photoURL) {
     return (
       <div className="account-badge">
         <img

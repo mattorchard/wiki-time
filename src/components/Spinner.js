@@ -1,3 +1,5 @@
 import "./Spinner.css";
-const Spinner = () => <div className="spinner" />;
+const Spinner = ({ color = "var(--color-primary)" }) => (
+  <div style={{ color }} className="spinner" />
+);
 export default Spinner;

@@ -1,13 +1,12 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 
-const idToWikiTag = id =>
+const formatId = id =>
   id
     .trimStart()
     .trimEnd()
+    .toLowerCase()
     .replace(/\s+/g, "_");
-
-const wikiTagToId = id => id.replace(/_/g, " ");
 
 export const formatYear = (year, commonEra = true) =>
   parseInt(year) * (commonEra ? 1 : -1);
@@ -19,7 +18,7 @@ export const saveEntity = uid => async ({
   endYear,
 }) => {
   const entity = {
-    id: idToWikiTag(id),
+    id: formatId(id),
     description: description.trimStart().trimEnd(),
     startYear: startYear || null,
     endYear: endYear || null,
@@ -27,7 +26,7 @@ export const saveEntity = uid => async ({
 
   return firebase
     .firestore()
-    .collection("users")
+    .collection("timelines")
     .doc(uid)
     .collection("entities")
     .doc(entity.id)

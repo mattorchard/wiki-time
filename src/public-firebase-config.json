@@ -1,0 +1,9 @@
+{
+  "apiKey": "AIzaSyBIYgx6bGpAQGuFJl8oivC9KpE7Dhp1mfo",
+  "authDomain": "wiki-time.firebaseapp.com",
+  "databaseURL": "https://wiki-time.firebaseio.com",
+  "projectId": "wiki-time",
+  "storageBucket": "wiki-time.appspot.com",
+  "messagingSenderId": "1069726794851",
+  "appId": "1:1069726794851:web:0ff86bc465f247cf96e456"
+}

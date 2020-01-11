@@ -1,0 +1,23 @@
+.input-field__input {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  border-bottom: 0.2em solid var(--color-primary);
+  background-color: transparent;
+  color: var(--color-text);
+  transition: background-color 0.3s ease;
+  padding: 0 0.2em;
+}
+.input-field__input::placeholder {
+  opacity: 0.5;
+  color: grey;
+}
+.input-field__input:focus {
+  outline: none;
+  box-shadow: 0 0.1em 0 0 var(--color-focus);
+  background-color: var(--color-secondary);
+}
+.input-field__label--number .input-field__input {
+  --digits: 6;
+  width: calc(1.5ch * var(--digits));
+}

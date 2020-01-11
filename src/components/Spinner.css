@@ -1,0 +1,17 @@
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 0.2em solid var(--color-primary);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-spin 1s linear infinite;
+}
+@keyframes spinner-spin {
+  from {
+    transform: rotateZ(0turn);
+  }
+  to {
+    transform: rotateZ(1turn);
+  }
+}

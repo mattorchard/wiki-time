@@ -1,0 +1,40 @@
+:root {
+  --color-primary: crimson;
+  --color-secondary: #7b1023;
+  --color-text: white;
+  --color-background: #1d1e22;
+  --color-focus: dodgerblue;
+  --bs-focus: 0 0 0 0.1em var(--color-focus);
+}
+html {
+  font-family: sans-serif;
+}
+body {
+  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-size: 2rem;
+}
+.btn {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border-radius: 0.2em;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  font-variant: all-small-caps;
+  padding: 0.07em 0.4em 0.17em;
+  transition-property: background-color, transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+.btn:hover {
+  background-color: var(--color-secondary);
+}
+.btn:active {
+  transform: translateY(0.05em);
+}
+.btn:focus {
+  outline: none;
+  box-shadow: var(--bs-focus);
+}

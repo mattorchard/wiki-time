@@ -1,0 +1,16 @@
+.entity-form {
+  display: flex;
+  flex-direction: column;
+}
+.entity-form [type="submit"] {
+  align-self: flex-start;
+}
+.date-fieldset {
+}
+.date-fieldset__legend {
+}
+.date-fieldset__inputs {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+}

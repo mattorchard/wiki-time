@@ -38,3 +38,5 @@ body {
   outline: none;
   box-shadow: var(--bs-focus);
 }
+.btn--secondary {
+}

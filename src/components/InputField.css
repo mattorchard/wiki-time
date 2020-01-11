@@ -17,6 +17,14 @@
   box-shadow: 0 0.1em 0 0 var(--color-focus);
   background-color: var(--color-secondary);
 }
+.input-field__label {
+  display: flex;
+  align-items: center;
+}
+.input-field__input {
+  margin-left: 0.5em;
+  width: 100%;
+}
 .input-field__label--number .input-field__input {
   --digits: 6;
   width: calc(1.5ch * var(--digits));

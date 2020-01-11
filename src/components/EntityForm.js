@@ -61,9 +61,10 @@ const EntityForm = () => {
         value={state.id}
         onInput={onInputFactory("id")}
       />
-      <label>
+      <label className="description__label">
         Description
         <textarea
+          className="description__field"
           value={state.description}
           onInput={onInputFactory("description")}
         />
@@ -73,7 +74,7 @@ const EntityForm = () => {
         <div className="date-fieldset__inputs">
           <InputField
             placeholder="1984"
-            label="Start Year"
+            label="Year"
             type="number"
             value={state.startYear}
             onInput={onInputFactory("startYear")}
@@ -91,7 +92,7 @@ const EntityForm = () => {
         <div className="date-fieldset__inputs">
           <InputField
             placeholder="2011"
-            label="End Year"
+            label="Year"
             type="number"
             value={state.endYear}
             onInput={onInputFactory("endYear")}
@@ -104,9 +105,18 @@ const EntityForm = () => {
           />
         </div>
       </fieldset>
-      <button className="btn" type="submit">
-        Save
-      </button>
+      <div role="group" className="form-actions">
+        <button className="btn" type="submit">
+          Save
+        </button>
+        <button
+          className="btn btn--secondary"
+          type="reset"
+          onClick={event => event.preventDefault()}
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

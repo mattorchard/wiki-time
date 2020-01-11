@@ -1,6 +1,9 @@
 .entity-form {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
+}
+.entity-form > * {
+  margin: 0.5em;
 }
 .entity-form [type="submit"] {
   align-self: flex-start;
@@ -8,9 +11,44 @@
 .date-fieldset {
 }
 .date-fieldset__legend {
+  border-bottom: 0.2em solid var(--color-primary);
+  margin-bottom: 0.2em;
 }
 .date-fieldset__inputs {
   display: flex;
   align-items: flex-end;
-  justify-content: space-around;
+}
+.date-fieldset__inputs > :first-child {
+  margin-right: 0.5em;
+}
+.description__label {
+  display: flex;
+  flex-direction: column;
+}
+
+.description__field {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+  border: 0.2em solid var(--color-primary);
+  border-radius: 0.3em;
+  min-height: 10em;
+  font-size: 0.75em;
+  margin-top: 0.375em;
+  transition: background-color 0.3s ease;
+}
+.description__field:focus {
+  box-shadow: 0 0 0 0.15em var(--color-focus);
+  background: rgba(255, 255, 255, 0.07);
+}
+.form-actions {
+  display: flex;
+}
+.form-actions > * {
+  margin: 0 0.5em;
+}
+.form-actions > *:first-child {
+  margin-left: 0;
+}
+.form-actions > *:last-child {
+  margin-right: 0;
 }

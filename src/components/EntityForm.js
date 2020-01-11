@@ -49,7 +49,7 @@ const initialState = {
 
 const EntityForm = () => {
   const { currentUser } = useAuthState();
-  const [state, onChangeFactory] = useFormState(initialState);
+  const [state, onInputFactory] = useFormState(initialState);
   return (
     <form
       className="entity-form"
@@ -59,13 +59,13 @@ const EntityForm = () => {
         label="ID"
         placeholder="Lorem Ipsum"
         value={state.id}
-        onInput={onChangeFactory("id")}
+        onInput={onInputFactory("id")}
       />
       <label>
         Description
         <textarea
           value={state.description}
-          onInput={onChangeFactory("description")}
+          onInput={onInputFactory("description")}
         />
       </label>
       <fieldset className="date-fieldset">
@@ -76,13 +76,13 @@ const EntityForm = () => {
             label="Start Year"
             type="number"
             value={state.startYear}
-            onInput={onChangeFactory("startYear")}
+            onInput={onInputFactory("startYear")}
           />
           <ToggleSwitch
             offLabel="BCE"
             onLabel="CE"
             value={state.startYearCe}
-            onChange={onChangeFactory("startYearCe")}
+            onChange={onInputFactory("startYearCe")}
           />
         </div>
       </fieldset>
@@ -94,13 +94,13 @@ const EntityForm = () => {
             label="End Year"
             type="number"
             value={state.endYear}
-            onInput={onChangeFactory("endYear")}
+            onInput={onInputFactory("endYear")}
           />
           <ToggleSwitch
             offLabel="BCE"
             onLabel="CE"
             value={state.endYearCe}
-            onChange={onChangeFactory("endYearCe")}
+            onChange={onInputFactory("endYearCe")}
           />
         </div>
       </fieldset>

@@ -9,14 +9,14 @@ const getInputValue = inputElement => {
 
 const useFormState = (initialState = {}) => {
   const [state, setState] = useState(initialState);
-  const onChangeFactory = useCallback(
+  const onInputFactory = useCallback(
     fieldName => ({ currentTarget }) => {
       const value = getInputValue(currentTarget);
       setState(state => ({ ...state, [fieldName]: value }));
     },
     [setState]
   );
-  return [state, onChangeFactory];
+  return [state, onInputFactory];
 };
 
 export default useFormState;

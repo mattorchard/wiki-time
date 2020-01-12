@@ -43,6 +43,7 @@ const handleSubmit = ({ uid, state }) => event => {
     description,
     startYear,
     endYear,
+    lectureNumber,
   });
 };
 

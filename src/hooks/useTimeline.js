@@ -36,6 +36,7 @@ const useTimeline = uid => {
       .collection("timelines")
       .doc(uid)
       .collection("entities")
+      .orderBy("id")
       .onSnapshot(formatEntitySnaps(setEntities));
   }, [uid]);
 

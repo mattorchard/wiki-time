@@ -2,6 +2,7 @@ import "./Timeline.css";
 import useTimelineFilter from "../hooks/useTimelineFilter";
 import { Fragment } from "preact";
 import useZoom from "../hooks/useZoom";
+import createBubbleHandler from "../helpers/handleBubble";
 
 const TimelineMarkers = ({ start, end, increment }) => (
   <ol className="timeline-markers">
@@ -22,6 +23,7 @@ const TimelineRanges = ({ ranges }) => (
       <div
         key={entity.id}
         id={`timeline-${entity.id}`}
+        data-entity-id={entity.id}
         className="timeline-range"
         style={{
           "--range-start": entity.startYear,
@@ -40,6 +42,7 @@ const TimelineEvents = ({ events }) => (
       <div
         key={entity.id}
         id={`timeline-${entity.id}`}
+        data-entity-id={entity.id}
         className="timeline-event"
         style={{
           "--event-start": entity.startYear,
@@ -51,13 +54,14 @@ const TimelineEvents = ({ events }) => (
   </Fragment>
 );
 
-const Timeline = ({ start, end, increment, entities }) => {
+const Timeline = ({ start, end, increment, entities, onSelect }) => {
   const { events, ranges } = useTimelineFilter(entities);
   const [zoom, handleWheel] = useZoom(2000);
   return (
     <div
       className="timeline"
       onWheel={handleWheel}
+      onClick={createBubbleHandler("entity-id", onSelect)}
       style={{
         "--timeline-scale": zoom,
         "--timeline-start": start,

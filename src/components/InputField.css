@@ -14,7 +14,7 @@
 }
 .input-field__input:focus {
   outline: none;
-  box-shadow: 0 0.1em 0 0 var(--color-focus);
+  box-shadow: var(--bs-bottom-focus);
   background-color: var(--color-secondary);
 }
 .input-field__label {

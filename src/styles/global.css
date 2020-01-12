@@ -5,6 +5,7 @@
   --color-background: #1d1e22;
   --color-focus: dodgerblue;
   --bs-focus: 0 0 0 0.1em var(--color-focus);
+  --bs-bottom-focus: 0 0.1em 0 0 var(--color-focus);
 }
 html {
   font-family: sans-serif;

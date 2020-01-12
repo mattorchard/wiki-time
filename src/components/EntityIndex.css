@@ -1,5 +1,5 @@
 .entity-index {
-  --entity-index-width: 25vw;
+  --entity-index-width: 30vw;
 }
 .entity-index__search-form {
 }
@@ -13,7 +13,7 @@
 }
 .entity-index__search-form__search-input:focus {
   outline: none;
-  box-shadow: 0 0.1em 0 0 var(--color-focus);
+  box-shadow: var(--bs-bottom-focus);
 }
 .entity-index__results {
   border-left: 0.2em solid;
@@ -25,7 +25,7 @@
   text-overflow: ellipsis;
   width: var(--entity-index-width);
   position: relative;
-  padding-left: 0.5em;
+  padding-left: 0.75em;
   line-height: 1.1em;
 }
 .entity-index__result::before {
@@ -38,4 +38,12 @@
   width: 0.5em;
   display: inline-block;
   background-color: var(--color-text);
+}
+.entity-index__result__link {
+  transition: text-decoration-color 0.3s ease;
+}
+
+.entity-index__result__link:focus {
+  outline: none;
+  text-decoration-color: var(--color-focus);
 }

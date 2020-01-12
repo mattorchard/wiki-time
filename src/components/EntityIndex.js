@@ -1,28 +1,33 @@
 import { useState } from "preact/hooks";
 import useDebouncedValue from "../hooks/useDebouncedValue";
-import { Fragment } from "preact";
 import useEntitySearch from "../hooks/useEntitySearch";
+import "./EntityIndex.css";
 
 const EntityIndex = ({ entities }) => {
   const [rawQuery, setRawQuery] = useState("");
   const query = useDebouncedValue(rawQuery);
   const searchResults = useEntitySearch(entities, query);
   return (
-    <Fragment>
-      <form>
+    <div className="entity-index">
+      <form className="entity-index__search-form">
         <input
-          aria-label="Search"
+          aria-label="Search entities"
+          placeholder="Search entities"
           type="search"
+          className="entity-index__search-form__search-input"
           value={rawQuery}
           onInput={event => setRawQuery(event.currentTarget.value)}
         />
       </form>
-      <ol>
+      {query && searchResults.length === 0 && "No Results"}
+      <ol className="entity-index__results">
         {searchResults.map(entity => (
-          <li key={entity.id}>{entity.name}</li>
+          <li className="entity-index__result" key={entity.id}>
+            {entity.name}
+          </li>
         ))}
       </ol>
-    </Fragment>
+    </div>
   );
 };
 

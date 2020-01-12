@@ -49,6 +49,7 @@
   transition-property: blur, opacity;
   transition-duration: 0.3s;
   transition-timing-function: ease;
+  padding: 0.5em;
 }
 .timeline-range:hover {
   opacity: 0.9;
@@ -63,5 +64,6 @@
   top: calc(
     100% * (var(--event-start) - var(--timeline-start)) / var(--timeline-length)
   );
-  height: 200px;
+  padding: 0.5em;
+  height: max-content;
 }

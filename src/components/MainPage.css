@@ -1,0 +1,8 @@
+.entity-lists {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+}
+.entity-form__container {
+  display: flex;
+  justify-content: center;
+}

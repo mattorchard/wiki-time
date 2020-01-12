@@ -3,6 +3,7 @@ import Spinner from "./Spinner";
 import useTimeline from "../hooks/useTimeline";
 import Timeline from "./Timeline";
 import EntityIndex from "./EntityIndex";
+import "./MainPage.css";
 
 const MainPage = ({ uid }) => {
   const { loading, timeline, entities } = useTimeline(uid);
@@ -12,14 +13,18 @@ const MainPage = ({ uid }) => {
 
   return (
     <main>
-      <EntityForm />
-      <EntityIndex entities={entities} />
-      <Timeline
-        start={timeline.start}
-        end={timeline.end}
-        entities={entities}
-        increment={10}
-      />
+      <div className="entity-form__container">
+        <EntityForm />
+      </div>
+      <div className="entity-lists">
+        <Timeline
+          start={timeline.start}
+          end={timeline.end}
+          entities={entities}
+          increment={10}
+        />
+        <EntityIndex entities={entities} />
+      </div>
     </main>
   );
 };

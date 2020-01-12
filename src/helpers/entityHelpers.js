@@ -16,10 +16,12 @@ export const saveEntity = uid => async ({
   description,
   startYear,
   endYear,
+  lectureNumber,
 }) => {
   const entity = {
+    lectureNumber,
     id: formatId(id),
-    description: description.trimStart().trimEnd(),
+    description: description,
     startYear: startYear || null,
     endYear: endYear || null,
   };

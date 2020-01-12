@@ -7,28 +7,36 @@ import { formatYear, saveEntity } from "../helpers/entityHelpers";
 import "./EntityForm.css";
 
 const handleSubmit = ({ uid, state }) => event => {
-  event.preventDefault(event);
+  event.preventDefault();
   if (!uid) {
     throw new Error(`Must be logged in`);
   }
+  const errors = [];
   const id = state.id.trim();
   if (!id) {
-    throw new Error(`Entity must have an ID`);
+    errors.push(`Must have an ID`);
   }
-  const description = state.description.trim();
-  if (!description) {
-    throw new Error(`Entity must have a description`);
+  const description = state.description.trimStart().trimEnd() || "";
+  const lectureNumber = parseInt(state.lectureNumber);
+  if (!lectureNumber) {
+    errors.push(`Must have a lecture number`);
+  }
+  if (isNaN(lectureNumber) || lectureNumber < 1) {
+    errors.push(`Invalid lecture number`);
   }
   const startYear = formatYear(state.startYear, state.startYearCe);
   if (state.startYear && isNaN(startYear)) {
-    throw new Error(`Invalid start year`);
+    errors.push(`Invalid start year`);
   }
   const endYear = formatYear(state.endYear, state.endYear);
   if (state.endYear && isNaN(endYear)) {
-    throw new Error(`Invalid end year`);
+    errors.push(`Invalid end year`);
   }
-  if (endYear <= startYear) {
-    throw new Error(`End year must be after start year`);
+  if (startYear && endYear && endYear <= startYear) {
+    errors.push(`End year must be after start year`);
+  }
+  if (errors.length > 0) {
+    throw new Error(errors.join(", "));
   }
   return saveEntity(uid)({
     id,
@@ -45,6 +53,7 @@ const initialState = {
   startYearCe: true,
   endYear: "",
   endYearCe: true,
+  lectureNumber: "",
 };
 
 const EntityForm = () => {
@@ -73,7 +82,6 @@ const EntityForm = () => {
         <legend className="date-fieldset__legend">Start Date</legend>
         <div className="date-fieldset__inputs">
           <InputField
-            placeholder="1984"
             label="Year"
             type="number"
             value={state.startYear}
@@ -91,7 +99,6 @@ const EntityForm = () => {
         <legend className="date-fieldset__legend">End Date</legend>
         <div className="date-fieldset__inputs">
           <InputField
-            placeholder="2011"
             label="Year"
             type="number"
             value={state.endYear}
@@ -105,6 +112,13 @@ const EntityForm = () => {
           />
         </div>
       </fieldset>
+      <InputField
+        digits="2"
+        label="Lecture #"
+        type="number"
+        value={state.lectureNumber}
+        onInput={onInputFactory("lectureNumber")}
+      />
       <div role="group" className="form-actions">
         <button className="btn" type="submit">
           Save

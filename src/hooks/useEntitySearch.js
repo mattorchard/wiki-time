@@ -17,7 +17,10 @@ const entitySearch = (entities, query) => {
   }
   return entities
     .map(entity => [getScore(entity, keywords), entity])
-    .sort((a, b) => (b[0] !== a[0] ? b[0] - a[0] : b[1] - a[1]))
+    .sort((entryA, entryB) =>
+      entryB[0] !== entryA[0] ? entryB[0] - entryA[0] : entryB[1] - entryA[1]
+    )
+    .filter(entry => entry[0] > 0)
     .map(entry => entry[1]);
 };
 

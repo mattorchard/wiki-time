@@ -19,7 +19,7 @@ const EntityIndex = ({ entities }) => {
       </form>
       <ol>
         {searchResults.map(entity => (
-          <li key={entity.id}>{entity.id}</li>
+          <li key={entity.id}>{entity.name}</li>
         ))}
       </ol>
     </Fragment>

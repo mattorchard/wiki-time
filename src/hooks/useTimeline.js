@@ -3,14 +3,14 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import { noCleanup } from "./hookUtils";
 
-const formatDocumentSnapshot = callback => snap =>
-  callback({
-    id: snap.id,
-    ...snap.data(),
-  });
-
-const formatQueryDocumentSnapshot = callback => querySnap =>
-  callback(querySnap.docs.map(snap => ({ id: snap.id, ...snap.data() })));
+const formatEntitySnaps = callback => querySnapshot =>
+  callback(
+    querySnapshot.docs.map(snap => ({
+      id: snap.id,
+      name: snap.id.replace(/_/g, " "),
+      ...snap.data(),
+    }))
+  );
 
 const useTimeline = uid => {
   const [timeline, setTimeline] = useState(null);
@@ -24,7 +24,7 @@ const useTimeline = uid => {
       .firestore()
       .collection("timelines")
       .doc(uid)
-      .onSnapshot(formatDocumentSnapshot(setTimeline));
+      .onSnapshot(snap => setTimeline(snap.data()));
   }, [uid]);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const useTimeline = uid => {
       .collection("timelines")
       .doc(uid)
       .collection("entities")
-      .onSnapshot(formatQueryDocumentSnapshot(setEntities));
+      .onSnapshot(formatEntitySnaps(setEntities));
   }, [uid]);
 
   const loadingTimeline = timeline === null;

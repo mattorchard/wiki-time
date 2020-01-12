@@ -28,7 +28,7 @@ const TimelineRanges = ({ ranges }) => (
           "--range-end": entity.endYear,
         }}
       >
-        {entity.id}
+        {entity.name}
       </div>
     ))}
   </Fragment>
@@ -45,7 +45,7 @@ const TimelineEvents = ({ events }) => (
           "--event-start": entity.startYear,
         }}
       >
-        {entity.id}
+        {entity.name}
       </div>
     ))}
   </Fragment>

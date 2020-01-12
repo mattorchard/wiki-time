@@ -11,7 +11,10 @@ const MainPage = ({ uid }) => {
     return <Spinner />;
   }
   const handleSelectEntity = entityId =>
-    console.log("Selected entity:", entityId);
+    console.log(
+      "Selected entity:",
+      entities.filter(entity => entity.id === entityId)
+    );
   return (
     <main>
       <div className="entity-form__container">
@@ -22,7 +25,7 @@ const MainPage = ({ uid }) => {
           start={timeline.start}
           end={timeline.end}
           entities={entities}
-          increment={10}
+          increment={1}
           onSelect={handleSelectEntity}
         />
         <EntityIndex entities={entities} onSelect={handleSelectEntity} />

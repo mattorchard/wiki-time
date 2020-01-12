@@ -9,7 +9,7 @@ const formatId = id =>
     .replace(/\s+/g, "_");
 
 export const formatYear = (year, commonEra = true) =>
-  parseInt(year) * (commonEra ? 1 : -1);
+  Number(year) * (commonEra ? 1 : -1);
 
 export const saveEntity = uid => async ({
   id,

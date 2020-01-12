@@ -5,9 +5,9 @@ import useAuthState from "../hooks/useAuthState";
 import useFormState from "../hooks/useFormState";
 import { formatYear, saveEntity } from "../helpers/entityHelpers";
 import "./EntityForm.css";
+import { useEffect } from "preact/hooks";
 
-const handleSubmit = ({ uid, state }) => event => {
-  event.preventDefault();
+const submitSaveEntity = ({ uid, state }) => {
   if (!uid) {
     throw new Error(`Must be logged in`);
   }
@@ -28,7 +28,7 @@ const handleSubmit = ({ uid, state }) => event => {
   if (state.startYear && isNaN(startYear)) {
     errors.push(`Invalid start year`);
   }
-  const endYear = formatYear(state.endYear, state.endYear);
+  const endYear = formatYear(state.endYear, state.endYearCe);
   if (state.endYear && isNaN(endYear)) {
     errors.push(`Invalid end year`);
   }
@@ -51,20 +51,37 @@ const initialState = {
   id: "",
   description: "",
   startYear: "",
-  startYearCe: true,
+  startYearCe: false,
   endYear: "",
-  endYearCe: true,
+  endYearCe: false,
   lectureNumber: "",
 };
 
-const EntityForm = () => {
+const EntityForm = ({ selectedEntity }) => {
   const { currentUser } = useAuthState();
-  const [state, onInputFactory] = useFormState(initialState);
+  const [state, setState, onInputFactory] = useFormState(initialState);
+
+  useEffect(
+    () => void setState(selectedEntity ? selectedEntity : initialState),
+    [selectedEntity]
+  );
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    submitSaveEntity({ uid: currentUser.uid, state })
+      .then(() => {
+        console.log("Saved Entity");
+        setState(initialState);
+      })
+      .catch(console.error);
+  };
+  const handleReset = event => {
+    event.preventDefault();
+    setState(selectedEntity);
+  };
+
   return (
-    <form
-      className="entity-form"
-      onSubmit={handleSubmit({ uid: currentUser.uid, state })}
-    >
+    <form className="entity-form" onSubmit={handleSubmit} onReset={handleReset}>
       <InputField
         label="ID"
         placeholder="Lorem Ipsum"
@@ -85,6 +102,7 @@ const EntityForm = () => {
           <InputField
             label="Year"
             type="number"
+            step={0.5}
             value={state.startYear}
             onInput={onInputFactory("startYear")}
           />
@@ -102,6 +120,7 @@ const EntityForm = () => {
           <InputField
             label="Year"
             type="number"
+            step={0.5}
             value={state.endYear}
             onInput={onInputFactory("endYear")}
           />
@@ -124,11 +143,7 @@ const EntityForm = () => {
         <button className="btn" type="submit">
           Save
         </button>
-        <button
-          className="btn btn--secondary"
-          type="reset"
-          onClick={event => event.preventDefault()}
-        >
+        <button className="btn btn--secondary" type="reset">
           Cancel
         </button>
       </div>

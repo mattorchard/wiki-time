@@ -16,7 +16,7 @@ const useFormState = (initialState = {}) => {
     },
     [setState]
   );
-  return [state, onInputFactory];
+  return [state, setState, onInputFactory];
 };
 
 export default useFormState;

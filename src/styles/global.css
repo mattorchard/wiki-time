@@ -14,7 +14,6 @@ body {
   min-height: 100vh;
   background-color: var(--color-background);
   color: var(--color-text);
-  font-size: 2rem;
 }
 .btn {
   background-color: var(--color-primary);

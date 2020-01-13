@@ -4,21 +4,21 @@ import useTimeline from "../hooks/useTimeline";
 import Timeline from "./Timeline";
 import EntityIndex from "./EntityIndex";
 import "./MainPage.css";
+import { useState } from "preact/hooks";
 
 const MainPage = ({ uid }) => {
   const { loading, timeline, entities } = useTimeline(uid);
+  const [selectedEntity, setSelectedEntity] = useState(null);
   if (loading) {
     return <Spinner />;
   }
   const handleSelectEntity = entityId =>
-    console.log(
-      "Selected entity:",
-      entities.find(entity => entity.id === entityId) || null
-    );
+    setSelectedEntity(entities.find(entity => entity.id === entityId) || null);
+
   return (
     <main>
       <div className="entity-form__container">
-        <EntityForm />
+        <EntityForm selectedEntity={selectedEntity} />
       </div>
       <div className="entity-lists">
         <Timeline

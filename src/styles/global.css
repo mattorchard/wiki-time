@@ -1,5 +1,6 @@
 :root {
   --color-primary: crimson;
+  --color-primary-translucent: rgba(220, 20, 60, 0.5);
   --color-secondary: #7b1023;
   --color-text: white;
   --color-background: #1d1e22;

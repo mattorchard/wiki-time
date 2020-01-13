@@ -3,6 +3,7 @@ import useTimelineFilter from "../hooks/useTimelineFilter";
 import { Fragment } from "preact";
 import useZoom from "../hooks/useZoom";
 import createBubbleHandler from "../helpers/handleBubble";
+import { useMemo } from "preact/hooks";
 
 const TimelineMarkers = ({ start, end, increment }) => (
   <ol className="timeline-markers">
@@ -36,23 +37,44 @@ const TimelineRanges = ({ ranges }) => (
   </Fragment>
 );
 
-const TimelineEvents = ({ events }) => (
-  <Fragment>
-    {events.map(entity => (
-      <div
-        key={entity.id}
-        id={`timeline-${entity.id}`}
-        data-entity-id={entity.id}
-        className="timeline-event"
-        style={{
-          "--event-start": entity.startYear,
-        }}
-      >
-        {entity.name}
-      </div>
-    ))}
-  </Fragment>
-);
+const groupEvents = events =>
+  Object.values(
+    events.reduce((groups, event) => {
+      if (!(event.startYear in groups)) {
+        groups[event.startYear] = [];
+      }
+      groups[event.startYear].push(event);
+      return groups;
+    }, {})
+  );
+
+const TimelineEvents = ({ events }) => {
+  const eventGroups = useMemo(() => groupEvents(events), [events]);
+  return (
+    <Fragment>
+      {eventGroups.map(group => (
+        <div
+          className="timeline-event__group"
+          key={group[0].startYear}
+          style={{
+            "--event-start": group[0].startYear,
+          }}
+        >
+          {group.map(event => (
+            <div
+              key={event.id}
+              id={`timeline-${event.id}`}
+              data-entity-id={event.id}
+              className="timeline-event"
+            >
+              {event.name}
+            </div>
+          ))}
+        </div>
+      ))}
+    </Fragment>
+  );
+};
 
 const Timeline = ({ start, end, increment, entities, onSelect }) => {
   const { events, ranges } = useTimelineFilter(entities);

@@ -13,7 +13,7 @@ const MainPage = ({ uid }) => {
   const handleSelectEntity = entityId =>
     console.log(
       "Selected entity:",
-      entities.filter(entity => entity.id === entityId)
+      entities.find(entity => entity.id === entityId) || null
     );
   return (
     <main>

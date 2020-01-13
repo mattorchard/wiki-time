@@ -1,11 +1,13 @@
 .timeline {
+  grid-area: timeline;
   --timeline-scale: 2000;
   --timeline-start: 0;
   --timeline-end: 2000;
   display: grid;
   grid-gap: 1em;
   padding: 1em;
-  grid-template-columns: max-content minmax(0, 1fr) minmax(0, 2fr);
+  grid-template-columns: max-content minmax(0, 1fr) minmax(0, 3fr);
+  --event-range-ratio: 3 / 1;
   --timeline-length: calc(var(--timeline-end) - var(--timeline-start));
 }
 .timeline-section {
@@ -31,9 +33,11 @@
   margin-right: -0.15em;
 }
 .timeline-range {
+  font-size: 1rem;
   position: absolute;
   left: 0;
-  right: 0;
+  width: max-content;
+  max-width: 100%;
   --range-start: 0;
   --range-end: 10;
   --range-length: calc(var(--range-end) - var(--range-start));
@@ -43,27 +47,50 @@
   height: calc(100% * var(--range-length) / var(--timeline-length));
 }
 .timeline-range {
-  background-color: var(--color-primary);
-  opacity: 0.6;
+  background-color: var(--color-primary-translucent);
   z-index: calc(var(--range-start) - var(--timeline-start) + 1);
-  transition-property: blur, opacity;
+  transition-property: blur, background-color;
+  opacity: 0.8;
   transition-duration: 0.3s;
   transition-timing-function: ease;
   padding: 0.5em;
 }
 .timeline-range:hover {
-  opacity: 0.9;
+  background-color: var(--color-primary);
   backdrop-filter: blur(2px);
   z-index: calc(var(--timeline-end) + 1);
 }
-.timeline-event {
+@media only screen and (max-width: 900px) {
+  .timeline-range {
+    writing-mode: vertical-rl;
+    transform: rotateZ(180deg);
+  }
+}
+.timeline-event__group {
   position: absolute;
-  background-color: var(--color-primary);
-  width: 100%;
   --event-start: 0;
   top: calc(
     100% * (var(--event-start) - var(--timeline-start)) / var(--timeline-length)
   );
+  width: 100%;
+  transform: translateY(-50%);
+  border-left: 0.2em solid;
+  flex-wrap: wrap;
+}
+.timeline-event__group::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(-100% / var(--event-range-ratio) - 2.5em);
+  right: 100%;
+  height: 0.2em;
+  background-color: var(--color-text);
+  transform: translateY(-50%);
+  z-index: var(--timeline-start);
+}
+.timeline-event {
+  background-color: var(--color-primary);
   padding: 0.5em;
-  height: max-content;
+  font-size: 1rem;
+  margin: 0.25em;
 }

@@ -1,13 +1,14 @@
 .app-header {
-    display: flex;
-    padding: 0.25em;
-    border-bottom: .2em solid var(--color-primary);
+  display: flex;
+  padding: 0.25em;
+  border-bottom: 0.2em solid var(--color-primary);
+  align-items: center;
 }
 .app-header__brand {
-    font-size: 3rem;
-    user-select: none;
-    font-weight: bold;
+  font-size: 3rem;
+  user-select: none;
+  font-weight: bold;
 }
 .app-header__actions {
-    margin-left: auto;
+  margin-left: auto;
 }

@@ -1,10 +1,12 @@
 .entity-index {
-  --entity-index-width: 30vw;
-}
-.entity-index__search-form {
+  grid-area: index;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .entity-index__search-form__search-input {
-  width: var(--entity-index-width);
+  width: var(--index-width);
   border: none;
   background-color: transparent;
   border-bottom: 0.2em solid var(--color-primary);
@@ -23,7 +25,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: var(--entity-index-width);
+  width: var(--index-width);
   position: relative;
   padding-left: 0.75em;
   line-height: 1.1em;
@@ -46,4 +48,7 @@
 .entity-index__result__link:focus {
   outline: none;
   text-decoration-color: var(--color-focus);
+}
+.timeline-event__group {
+  display: flex;
 }

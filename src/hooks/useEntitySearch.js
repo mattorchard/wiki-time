@@ -1,6 +1,6 @@
 import { useMemo } from "preact/hooks";
 
-const tokenize = text => text.split(/[^a-z]+/gi);
+const tokenize = text => text.toLowerCase().split(/[^a-z]+/gi);
 
 const getScore = (entity, keywords) => {
   const tokens = tokenize(entity.id);

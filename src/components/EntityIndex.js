@@ -12,7 +12,10 @@ const EntityIndex = ({ entities, onSelect }) => {
   return (
     <div className="entity-index">
       <div>
-        <form className="entity-index__search-form">
+        <form
+          className="entity-index__search-form"
+          onSubmit={event => event.preventDefault()}
+        >
           <input
             aria-label="Search entities"
             placeholder="Search entities"

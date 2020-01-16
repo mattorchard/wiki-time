@@ -39,5 +39,17 @@ body {
   outline: none;
   box-shadow: var(--bs-focus);
 }
-.btn--secondary {
+.textarea {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+  border: 0.2em solid var(--color-primary);
+  border-radius: 0.3em;
+  min-height: 10em;
+  font-size: 0.75em;
+  margin-top: 0.375em;
+  transition: background-color 0.3s ease;
+}
+.textarea:focus {
+  box-shadow: 0 0 0 0.15em var(--color-focus);
+  background: rgba(255, 255, 255, 0.07);
 }

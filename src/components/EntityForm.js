@@ -57,12 +57,31 @@ const initialState = {
   lectureNumber: "",
 };
 
+const entityToState = ({
+  id,
+  description,
+  lectureNumber,
+  startYear,
+  endYear,
+}) => ({
+  id: id.replace(/_/g, " "),
+  description,
+  lectureNumber: lectureNumber.toString(),
+  startYear: startYear ? Math.abs(startYear).toString() : "",
+  endYear: endYear ? Math.abs(endYear).toString() : "",
+  startYearCe: startYear > 0,
+  endYearCe: endYear > 0,
+});
+
 const EntityForm = ({ selectedEntity }) => {
   const { currentUser } = useAuthState();
   const [state, setState, onInputFactory] = useFormState(initialState);
 
   useEffect(
-    () => void setState(selectedEntity ? selectedEntity : initialState),
+    () =>
+      void setState(
+        selectedEntity ? entityToState(selectedEntity) : initialState
+      ),
     [selectedEntity]
   );
 
@@ -77,7 +96,7 @@ const EntityForm = ({ selectedEntity }) => {
   };
   const handleReset = event => {
     event.preventDefault();
-    setState(selectedEntity);
+    setState(initialState);
   };
 
   return (
@@ -91,7 +110,7 @@ const EntityForm = ({ selectedEntity }) => {
       <label className="description__label">
         Description
         <textarea
-          className="description__field"
+          className="textarea"
           value={state.description}
           onInput={onInputFactory("description")}
         />

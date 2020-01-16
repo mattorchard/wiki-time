@@ -21,10 +21,12 @@ export const saveEntity = uid => async ({
   const entity = {
     lectureNumber,
     id: formatId(id),
-    description: description,
+    description: description || "",
     startYear: startYear || null,
     endYear: endYear || null,
   };
+
+  console.log("Saving entity", entity);
 
   return firebase
     .firestore()

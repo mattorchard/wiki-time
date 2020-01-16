@@ -1,6 +1,6 @@
 .entity-form__container {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   font-size: 1.5rem;
 }
 .entity-lists {

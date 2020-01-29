@@ -11,4 +11,15 @@
 }
 .app-header__actions {
   margin-left: auto;
+  margin-right: 1em;
+  display: flex;
+}
+.app-header__nav {
+  font-size: 1.25em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-header__nav__link {
+  margin: 0 1em 0;
 }

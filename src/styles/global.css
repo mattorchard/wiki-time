@@ -19,7 +19,7 @@ body {
 .btn {
   background-color: var(--color-primary);
   color: var(--color-text);
-  border-radius: 0.2em;
+  border-radius: 0.2rem;
   font-size: inherit;
   cursor: pointer;
   border: none;
@@ -39,12 +39,19 @@ body {
   outline: none;
   box-shadow: var(--bs-focus);
 }
+.non-btn {
+  padding: 0;
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+}
 .textarea {
   background: rgba(255, 255, 255, 0.1);
   color: var(--color-text);
-  border: 0.2em solid var(--color-primary);
+  border: 0.2rem solid var(--color-primary);
   border-radius: 0.3em;
-  min-height: 10em;
+  min-height: 12em;
   font-size: 0.65em;
   width: 50vw;
   margin-top: 0.375em;
@@ -53,4 +60,24 @@ body {
 .textarea:focus {
   box-shadow: 0 0 0 0.15em var(--color-focus);
   background: rgba(255, 255, 255, 0.07);
+}
+:root {
+  --scroll-width: 10px;
+}
+::-webkit-scrollbar {
+  width: var(--scroll-width);
+}
+
+::-webkit-scrollbar-track {
+  width: var(--scroll-width);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4c4f54;
+  width: var(--scroll-width);
+}
+::-webkit-resizer {
+  background-color: #4c4f54;
+  width: 15px;
+  height: 15px;
 }

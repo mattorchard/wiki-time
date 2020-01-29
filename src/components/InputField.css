@@ -2,7 +2,7 @@
   appearance: none;
   -webkit-appearance: none;
   border: none;
-  border-bottom: 0.2em solid var(--color-primary);
+  border-bottom: 0.2rem solid var(--color-primary);
   background-color: transparent;
   color: var(--color-text);
   transition: background-color 0.3s ease;

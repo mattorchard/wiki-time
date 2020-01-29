@@ -1,6 +1,32 @@
+.entity-form__container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.5rem;
+  z-index: calc(var(--timeline-end) + 2);
+}
+.modal-background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(20, 20, 20, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: -1;
+}
 .entity-form {
   display: inline-flex;
   flex-direction: column;
+  background-color: var(--color-background);
+  padding: 1em;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 .entity-form > * {
   margin: 0.5em;
@@ -11,7 +37,7 @@
 .date-fieldset {
 }
 .date-fieldset__legend {
-  border-bottom: 0.2em solid var(--color-primary);
+  border-bottom: 0.2rem solid var(--color-primary);
   margin-bottom: 0.2em;
 }
 .date-fieldset__inputs {

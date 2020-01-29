@@ -73,7 +73,7 @@ const entityToState = ({
   endYearCe: endYear > 0,
 });
 
-const EntityForm = ({ selectedEntity }) => {
+const EntityForm = ({ selectedEntity, onRequestClose }) => {
   const { currentUser } = useAuthState();
   const [state, setState, onInputFactory] = useFormState(initialState);
 
@@ -91,82 +91,90 @@ const EntityForm = ({ selectedEntity }) => {
       .then(() => {
         console.log("Saved Entity");
         setState(initialState);
+        onRequestClose();
       })
       .catch(console.error);
   };
   const handleReset = event => {
     event.preventDefault();
-    setState(initialState);
+    onRequestClose();
   };
 
   return (
-    <form className="entity-form" onSubmit={handleSubmit} onReset={handleReset}>
-      <InputField
-        label="ID"
-        placeholder="Lorem Ipsum"
-        value={state.id}
-        onInput={onInputFactory("id")}
-      />
-      <label className="description__label">
-        Description
-        <textarea
-          className="textarea"
-          value={state.description}
-          onInput={onInputFactory("description")}
+    <div className="entity-form__container">
+      <div className="modal-background" />
+      <form
+        className="entity-form"
+        onSubmit={handleSubmit}
+        onReset={handleReset}
+      >
+        <InputField
+          label="ID"
+          placeholder="Lorem Ipsum"
+          value={state.id}
+          onInput={onInputFactory("id")}
         />
-      </label>
-      <fieldset className="date-fieldset">
-        <legend className="date-fieldset__legend">Start Date</legend>
-        <div className="date-fieldset__inputs">
-          <InputField
-            label="Year"
-            type="number"
-            step={0.5}
-            value={state.startYear}
-            onInput={onInputFactory("startYear")}
+        <label className="description__label">
+          Description
+          <textarea
+            className="textarea"
+            value={state.description}
+            onInput={onInputFactory("description")}
           />
-          <ToggleSwitch
-            offLabel="BCE"
-            onLabel="CE"
-            value={state.startYearCe}
-            onChange={onInputFactory("startYearCe")}
-          />
+        </label>
+        <fieldset className="date-fieldset">
+          <legend className="date-fieldset__legend">Start Date</legend>
+          <div className="date-fieldset__inputs">
+            <InputField
+              label="Year"
+              type="number"
+              step={0.5}
+              value={state.startYear}
+              onInput={onInputFactory("startYear")}
+            />
+            <ToggleSwitch
+              offLabel="BCE"
+              onLabel="CE"
+              value={state.startYearCe}
+              onChange={onInputFactory("startYearCe")}
+            />
+          </div>
+        </fieldset>
+        <fieldset className="date-fieldset">
+          <legend className="date-fieldset__legend">End Date</legend>
+          <div className="date-fieldset__inputs">
+            <InputField
+              label="Year"
+              type="number"
+              step={0.5}
+              value={state.endYear}
+              onInput={onInputFactory("endYear")}
+            />
+            <ToggleSwitch
+              offLabel="BCE"
+              onLabel="CE"
+              value={state.endYearCe}
+              onChange={onInputFactory("endYearCe")}
+            />
+          </div>
+        </fieldset>
+        <InputField
+          digits="2"
+          label="Lecture #"
+          type="number"
+          value={state.lectureNumber}
+          onInput={onInputFactory("lectureNumber")}
+        />
+        <div role="group" className="form-actions">
+          <button className="btn" type="submit">
+            Save
+          </button>
+          <button className="btn btn--secondary" type="reset">
+            Cancel
+          </button>
         </div>
-      </fieldset>
-      <fieldset className="date-fieldset">
-        <legend className="date-fieldset__legend">End Date</legend>
-        <div className="date-fieldset__inputs">
-          <InputField
-            label="Year"
-            type="number"
-            step={0.5}
-            value={state.endYear}
-            onInput={onInputFactory("endYear")}
-          />
-          <ToggleSwitch
-            offLabel="BCE"
-            onLabel="CE"
-            value={state.endYearCe}
-            onChange={onInputFactory("endYearCe")}
-          />
-        </div>
-      </fieldset>
-      <InputField
-        digits="2"
-        label="Lecture #"
-        type="number"
-        value={state.lectureNumber}
-        onInput={onInputFactory("lectureNumber")}
-      />
-      <div role="group" className="form-actions">
-        <button className="btn" type="submit">
-          Save
-        </button>
-        <button className="btn btn--secondary" type="reset">
-          Cancel
-        </button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 

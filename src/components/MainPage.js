@@ -15,11 +15,24 @@ const MainPage = ({ uid }) => {
   const handleSelectEntity = entityId =>
     setSelectedEntity(entities.find(entity => entity.id === entityId) || null);
 
+  const deselectEntity = () => setSelectedEntity(null);
+
   return (
-    <main>
-      <div className="entity-form__container">
-        <EntityForm selectedEntity={selectedEntity} />
-      </div>
+    <main
+      style={{
+        "--timeline-start": timeline.start,
+        "--timeline-end": timeline.end,
+      }}
+      onKeyDown={event =>
+        event.key.toLowerCase() === "escape" && deselectEntity()
+      }
+    >
+      {selectedEntity && (
+        <EntityForm
+          selectedEntity={selectedEntity}
+          onRequestClose={deselectEntity}
+        />
+      )}
       <div className="entity-lists">
         <Timeline
           start={timeline.start}

@@ -19,7 +19,7 @@
   --notch-color: var(--color-text);
   --notch-size: 0.75em;
   width: 2.25em;
-  border: 0.2em solid var(--color-primary);
+  border: 0.2rem solid var(--color-primary);
   border-radius: 1000px;
   transition: background-color 0.3s ease;
 }

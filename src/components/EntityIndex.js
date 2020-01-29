@@ -36,12 +36,20 @@ const EntityIndex = ({ entities, onSelect }) => {
               key={entity.id}
               data-entity-id={entity.id}
             >
-              <a className="entity-index__result__link" href={`#${entity.id}`}>
+              <button
+                className=" non-btn entity-index__result__button"
+                type="button"
+              >
                 {entity.name}
-              </a>
+              </button>
             </li>
           ))}
         </ol>
+        {query && (
+          <div>
+            Showing {searchResults.length} of {entities.length} entities
+          </div>
+        )}
       </div>
     </div>
   );

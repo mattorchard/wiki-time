@@ -1,7 +1,7 @@
 .app-header {
   display: flex;
   padding: 0.25em;
-  border-bottom: 0.2em solid var(--color-primary);
+  border-bottom: 0.2rem solid var(--color-primary);
   align-items: center;
 }
 .app-header__brand {

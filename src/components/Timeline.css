@@ -15,7 +15,7 @@
 }
 .timeline-markers {
   text-align: right;
-  border-right: 0.2em solid;
+  border-right: 0.2rem solid;
 }
 .timeline-marker {
   margin-bottom: calc(0.001em * var(--timeline-scale));
@@ -27,7 +27,7 @@
 .timeline-marker::after {
   content: " ";
   width: 1em;
-  height: 0.2em;
+  height: 0.2rem;
   background-color: var(--color-text);
   margin-left: 0.25em;
   margin-right: -0.15em;
@@ -74,7 +74,7 @@
   );
   width: 100%;
   transform: translateY(-50%);
-  border-left: 0.2em solid;
+  border-left: 0.2rem solid;
   flex-wrap: wrap;
 }
 .timeline-event__group::before {
@@ -83,7 +83,7 @@
   top: 50%;
   left: calc(-100% / var(--event-range-ratio) - 2.5em);
   right: 100%;
-  height: 0.2em;
+  height: 0.2rem;
   background-color: var(--color-text);
   transform: translateY(-50%);
   z-index: var(--timeline-start);

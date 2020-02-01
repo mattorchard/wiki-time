@@ -1,4 +1,4 @@
-import useGlobalEvent from "./useGlobalEvent";
+import useDocumentEvent from "./useDocumentEvent";
 
 const setMousePosition = ({ clientX, clientY }) => {
   const root = document.body.parentElement;
@@ -14,9 +14,9 @@ const handleTouchMove = event => {
 };
 
 const useMouseCssVars = () => {
-  useGlobalEvent("mousemove", handleMouseMove);
-  useGlobalEvent("touchmove", handleTouchMove);
-  useGlobalEvent("touchstart", handleTouchMove);
-  useGlobalEvent("touchend", handleTouchMove);
+  useDocumentEvent("mousemove", handleMouseMove);
+  useDocumentEvent("touchmove", handleTouchMove);
+  useDocumentEvent("touchstart", handleTouchMove);
+  useDocumentEvent("touchend", handleTouchMove);
 };
 export default useMouseCssVars;

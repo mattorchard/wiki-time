@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
 import "./QuizTimeline.css";
-import useGlobalEvent from "../hooks/useGlobalEvent";
+import useDocumentEvent from "../hooks/useDocumentEvent";
 
 const noOp = () => {};
 
@@ -91,8 +91,8 @@ const QuizTimeline = ({ items = SAMPLE_ITEMS }) => {
   const [itemsOrdered, setItemsOrdered] = useState(items);
   const [draggingIndex, setDraggingIndex] = useState(null);
 
-  useGlobalEvent("mouseup", () => setDraggingIndex(null));
-  useGlobalEvent("touchend", () => setDraggingIndex(null));
+  useDocumentEvent("mouseup", () => setDraggingIndex(null));
+  useDocumentEvent("touchend", () => setDraggingIndex(null));
 
   const reorderItems = overIndex => {
     if (overIndex === draggingIndex) {

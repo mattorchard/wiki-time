@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "preact/hooks";
 
-const useGlobalEvent = (eventType, callback) => {
+const useDocumentEvent = (eventType, callback) => {
   const depSafeCallback = useCallback(callback, []);
   useEffect(() => {
     document.addEventListener(eventType, depSafeCallback);
@@ -8,4 +8,4 @@ const useGlobalEvent = (eventType, callback) => {
   }, [eventType, depSafeCallback]);
 };
 
-export default useGlobalEvent;
+export default useDocumentEvent;

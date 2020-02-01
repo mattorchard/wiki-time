@@ -1,14 +1,22 @@
-import { useEffect } from "preact/hooks";
+import useGlobalEvent from "./useGlobalEvent";
 
-const useMouseCssVars = () =>
-  useEffect(() => {
-    const handleMouseMove = ({ clientX, clientY }) => {
-      const root = document.body.parentElement;
-      root.style.setProperty("--mouse-x", clientX);
-      root.style.setProperty("--mouse-y", clientY);
-    };
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => document.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+const setMousePosition = ({ clientX, clientY }) => {
+  const root = document.body.parentElement;
+  root.style.setProperty("--mouse-x", clientX);
+  root.style.setProperty("--mouse-y", clientY);
+};
 
+const handleMouseMove = event => setMousePosition(event);
+
+const handleTouchMove = event => {
+  const [position] = event.touches;
+  setMousePosition(position);
+};
+
+const useMouseCssVars = () => {
+  useGlobalEvent("mousemove", handleMouseMove);
+  useGlobalEvent("touchmove", handleTouchMove);
+  useGlobalEvent("touchstart", handleTouchMove);
+  useGlobalEvent("touchend", handleTouchMove);
+};
 export default useMouseCssVars;

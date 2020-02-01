@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useRef, useState } from "preact/hooks";
 import "./QuizTimeline.css";
 import useDocumentEvent from "../hooks/useDocumentEvent";
 
@@ -84,17 +84,24 @@ const SAMPLE_ITEMS = shuffle(
     "Fifth",
     "Sixth",
     "Seventh",
+    "Eighth",
+    "Ninth",
   ].map((item, index) => ({ item, order: index }))
 );
 
 const QuizTimeline = ({ items = SAMPLE_ITEMS }) => {
   const [itemsOrdered, setItemsOrdered] = useState(items);
   const [draggingIndex, setDraggingIndex] = useState(null);
+  const lastOverIndexRef = useRef(null);
 
   useDocumentEvent("mouseup", () => setDraggingIndex(null));
   useDocumentEvent("touchend", () => setDraggingIndex(null));
 
   const reorderItems = overIndex => {
+    if (lastOverIndexRef.current === overIndex) {
+      return;
+    }
+    lastOverIndexRef.current = overIndex;
     if (overIndex === draggingIndex) {
       // No reordering needs to be done
       return;
@@ -147,7 +154,8 @@ const QuizTimeline = ({ items = SAMPLE_ITEMS }) => {
 
   return (
     <ol
-      className="reorderable-list"
+      className={`reorderable-list ${draggingIndex === null ||
+        "reorderable-list--dragging"}`}
       onMouseMove={draggingIndex === null ? noOp : handleMouseMove}
       onTouchMove={draggingIndex === null ? noOp : handleTouchMove}
     >

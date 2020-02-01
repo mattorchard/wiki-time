@@ -17,6 +17,8 @@
   height: 100%;
   order: var(--order);
   user-select: none;
+  min-width: calc(var(--drag-width) * 1px);
+  min-height: calc(var(--drag-height) * 1px);
 }
 .reorderable-list__item:hover {
   background-color: rgba(255, 255, 255, 0.2);
@@ -27,9 +29,10 @@
 }
 .reorderable-list__item--dragging .reorderable-list__item__content {
   pointer-events: none;
+  touch-action: none;
   position: fixed;
   top: calc((var(--mouse-y) - var(--drag-y)) * 1px);
   left: calc((var(--mouse-x) - var(--drag-x)) * 1px);
-  width: var(--drag-width);
-  height: var(--drag-height);
+  width: calc(var(--drag-width) * 1px);
+  height: calc(var(--drag-height) * 1px);
 }

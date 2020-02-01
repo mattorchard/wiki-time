@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "preact/hooks";
-import useElementSize from "../hooks/useElementSize";
+import { useState } from "preact/hooks";
 import "./QuizTimeline.css";
-import useMediaQuery from "../hooks/useMediaQuery";
+import useGlobalEvent from "../hooks/useGlobalEvent";
+
+const noOp = () => {};
 
 const ReorderableItem = ({
   text,
@@ -10,7 +11,6 @@ const ReorderableItem = ({
   requestEnableDragging,
   order,
 }) => {
-  const [bounds, ref] = useElementSize();
   const [dragDetails, setDragDetails] = useState({
     width: 0,
     height: 0,
@@ -28,12 +28,21 @@ const ReorderableItem = ({
     });
     requestEnableDragging(index);
   };
+  const handleTouchStart = event => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const [touch] = event.touches;
+
+    setDragDetails({
+      width: bounds.width,
+      height: bounds.height,
+      x: touch.pageX - touch.target.offsetLeft,
+      y: touch.pageY - touch.target.offsetTop,
+    });
+    requestEnableDragging(index);
+  };
   return (
     <li
-      data-width={bounds && bounds.width}
-      data-height={bounds && bounds.height}
       data-index={index}
-      ref={ref}
       className={`reorderable-list__item ${dragging &&
         "reorderable-list__item--dragging"}`}
       style={{
@@ -47,6 +56,7 @@ const ReorderableItem = ({
     >
       <div
         onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
         className="reorderable-list__item__content"
       >
         {text}
@@ -55,39 +65,59 @@ const ReorderableItem = ({
   );
 };
 
-const SAMPLE_ITEMS = [
-  "First",
-  "Second",
-  "Third",
-  "Fourth",
-  "Fifth",
-  "Sixth",
-  "Seventh",
-];
+const shuffle = array => {
+  array.forEach(current => {
+    const currentOrder = current.order;
+    const otherIndex = Math.floor(Math.random() * array.length);
+    current.order = array[otherIndex].order;
+    array[otherIndex].order = currentOrder;
+  });
+  return array;
+};
+
+const SAMPLE_ITEMS = shuffle(
+  [
+    "First things first",
+    "Second",
+    "Third",
+    "Fourth",
+    "Fifth",
+    "Sixth",
+    "Seventh",
+  ].map((item, index) => ({ item, order: index }))
+);
 
 const QuizTimeline = ({ items = SAMPLE_ITEMS }) => {
-  const isHorizontal = useMediaQuery("(min-width: 1200px)");
-  const [itemsOrdered, setItemsOrdered] = useState(() =>
-    items.map((item, index) => ({ item, order: index * 3 }))
-  );
-  const reorderRef = useRef({ relativeToIndex: null, isBefore: null });
-
+  const [itemsOrdered, setItemsOrdered] = useState(items);
   const [draggingIndex, setDraggingIndex] = useState(null);
 
-  const reorderItems = (relativeToIndex, isBefore) => {
-    if (
-      relativeToIndex === reorderRef.current.relativeToIndex &&
-      isBefore === reorderRef.current.isBefore
-    ) {
+  useGlobalEvent("mouseup", () => setDraggingIndex(null));
+  useGlobalEvent("touchend", () => setDraggingIndex(null));
+
+  const reorderItems = overIndex => {
+    if (overIndex === draggingIndex) {
+      // No reordering needs to be done
       return;
     }
+
     setItemsOrdered(itemsOrdered => {
-      const newOrder = [...itemsOrdered];
-      const relativeToOrder = itemsOrdered[relativeToIndex].order;
-      newOrder[draggingIndex].order = relativeToOrder + (isBefore ? -1 : 1);
-      return newOrder;
+      const draggingOrder = itemsOrdered[draggingIndex].order;
+      const overOrder = itemsOrdered[overIndex].order;
+      const nextItemsOrdered = itemsOrdered.map(({ item, order }) => {
+        if (order > draggingOrder) {
+          // Shift down one, as the dragging one is being removed from the order
+          order -= 1;
+        }
+        if (order >= overOrder) {
+          // Shift up one as this is where the dragged one is going to be inserted
+          order += 1;
+        }
+        return { item, order };
+      });
+      // Put the dragged one where the dragged-over over one is
+      nextItemsOrdered[draggingIndex].order = overOrder;
+      return nextItemsOrdered;
     });
-    reorderRef.current = { relativeToIndex, isBefore };
   };
 
   const handleRequestEnableDragging = index => {
@@ -96,31 +126,30 @@ const QuizTimeline = ({ items = SAMPLE_ITEMS }) => {
     }
   };
 
-  const handleMouseMove = ({ target, offsetX, offsetY }) => {
-    if (target.tagName.toLowerCase() !== "li") {
+  const handleMouseMove = ({ target }) => {
+    const listItem = target.closest
+      ? target.closest("li")
+      : target.parentElement.closest("li");
+    if (!listItem) {
       return;
     }
-    const { width, height, index } = target.dataset;
-    const isLeftOf = offsetX < width / 2;
-    const isAbove = offsetY < height / 2;
-    const isBefore = isHorizontal ? isLeftOf : isAbove;
-    reorderItems(index, isBefore);
+    const { index } = listItem.dataset;
+    reorderItems(parseInt(index));
   };
 
-  const handleMouseUp = () => {
-    setDraggingIndex(null);
-    setItemsOrdered(items => {
-      const newOrder = items.sort((a, b) => a.order - b.order);
-      newOrder.forEach((item, index) => (item.order = index * 3));
-      return newOrder;
+  const handleTouchMove = event => {
+    event.preventDefault();
+    const [{ clientX, clientY }] = event.touches;
+    handleMouseMove({
+      target: document.elementFromPoint(clientX, clientY),
     });
   };
 
   return (
     <ol
       className="reorderable-list"
-      onMouseMove={draggingIndex === null ? () => {} : handleMouseMove}
-      onMouseUp={handleMouseUp}
+      onMouseMove={draggingIndex === null ? noOp : handleMouseMove}
+      onTouchMove={draggingIndex === null ? noOp : handleTouchMove}
     >
       {itemsOrdered.map(({ item, order }, index) => (
         <ReorderableItem

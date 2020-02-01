@@ -1,9 +1,13 @@
 import useDocumentEvent from "./useDocumentEvent";
 
-const setMousePosition = ({ clientX, clientY }) => {
+const setMousePosition = ({ clientX, clientY, movementX, movementY }) => {
   const root = document.body.parentElement;
   root.style.setProperty("--mouse-x", clientX);
   root.style.setProperty("--mouse-y", clientY);
+  root.style.setProperty("--mouse-speed-x", movementX || 0.01);
+  root.style.setProperty("--mouse-speed-y", movementY || 0.01);
+  const speed = Math.sqrt(movementX ** 2 + movementY ** 2) || 0.01;
+  root.style.setProperty("--mouse-speed", speed.toString());
 };
 
 const handleMouseMove = event => setMousePosition(event);

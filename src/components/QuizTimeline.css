@@ -35,4 +35,9 @@
   left: calc((var(--mouse-x) - var(--drag-x)) * 1px);
   width: calc(var(--drag-width) * 1px);
   height: calc(var(--drag-height) * 1px);
+  box-shadow: 0 0.2rem 0.4rem rgba(20, 20, 20, 0.2);
+  /* Rotate based on speed */
+  transform-origin: calc(var(--drag-x) * 1px) calc(var(--drag-y) * 1px);
+  transition: transform linear 0.1s;
+  transform: rotateZ(min(10deg, calc(2deg * var(--mouse-speed-x))));
 }

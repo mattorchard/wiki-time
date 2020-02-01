@@ -1,31 +1,32 @@
 .reorderable-list {
   display: flex;
-  flex-direction: column;
-}
-@media screen and (min-width: 1200px) {
-  .reorderable-list {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .reorderable-list__item {
+  padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
   height: 100%;
   order: var(--order);
   user-select: none;
-  min-width: calc(var(--drag-width) * 1px);
-  min-height: calc(var(--drag-height) * 1px);
+}
+.reorderable-list__item--dragging {
+  min-width: calc(var(--drag-width) * 1px + 2rem);
+  min-height: calc(var(--drag-height) * 1px + 2rem);
 }
 .reorderable-list__item:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 .reorderable-list__item__content {
-  padding: 2rem;
+  padding: 1rem;
   background-color: var(--color-primary);
+  cursor: grab;
+}
+.reorderable-list--dragging {
+  cursor: grabbing;
 }
 .reorderable-list__item--dragging .reorderable-list__item__content {
   pointer-events: none;

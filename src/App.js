@@ -16,10 +16,18 @@ firebase.initializeApp(publicFirebaseConfig);
 
 const routes = new Set(["order-quiz", "quiz-definitions", "import"]);
 
+const getLectureNumber = () => {
+  const params = new URLSearchParams(window.location.search);
+  return parseInt(params.get("lectureNumber")) || null;
+};
+
 const App = () => {
   useMouseCssVars();
   const { loggedIn, currentUser } = useAuthState();
-  const { loading, timeline, entities } = useTimeline(currentUser.uid);
+  const { loading, timeline, entities } = useTimeline(
+    currentUser.uid,
+    getLectureNumber()
+  );
   const hash = useHash();
   const route = routes.has(hash) ? hash : "main";
   return (

@@ -1,6 +1,7 @@
-import { useMemo } from "preact/hooks";
-import Debug from "./Debug";
+import { useMemo, useState } from "preact/hooks";
 import OrderableList from "./OrderableList";
+import ToggleSwitch from "./ToggleSwitch";
+import "./OrderQuiz.css";
 
 const getOrderableEntities = entities =>
   entities.filter(entity => entity.startYear || entity.startYear === 0);
@@ -39,6 +40,8 @@ const entityComparator = (entityA, entityB) =>
   entityA.startYear - entityB.startYear;
 
 const OrderQuiz = ({ entities }) => {
+  const [isShowingAnswers, setIsShowingAnswers] = useState(false);
+  const [questionNumber, setQuestionNumber] = useState(1);
   const orderableEntities = useMemo(() => getOrderableEntities(entities), [
     entities,
   ]);
@@ -53,9 +56,31 @@ const OrderQuiz = ({ entities }) => {
           }))
       ),
 
-    [entities]
+    [entities, questionNumber]
   );
-  return <OrderableList items={itemsToOrder} />;
+  return (
+    <div className="order-quiz">
+      <div className="order-quiz__actions">
+        <ToggleSwitch
+          onLabel="Show Answers"
+          offLabel="Hide Answers"
+          onChange={e => setIsShowingAnswers(e.currentTarget.checked)}
+          value={isShowingAnswers}
+        />
+        <button
+          className="btn"
+          type="button"
+          onClick={() => {
+            setQuestionNumber(number => number + 1);
+            setIsShowingAnswers(false);
+          }}
+        >
+          Next Question
+        </button>
+      </div>
+      <OrderableList items={itemsToOrder} isShowingAnswers={isShowingAnswers} />
+    </div>
+  );
 };
 
 export default OrderQuiz;

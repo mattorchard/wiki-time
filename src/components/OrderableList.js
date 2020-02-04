@@ -1,7 +1,6 @@
-import { useRef, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import "./OrderableList.css";
 import useDocumentEvent from "../hooks/useDocumentEvent";
-import ToggleSwitch from "./ToggleSwitch";
 
 const OrderableListItem = ({
   text,
@@ -68,13 +67,12 @@ const OrderableListItem = ({
   );
 };
 
-const OrderableList = ({ items }) => {
+const OrderableList = ({ items, isShowingAnswers }) => {
   const [itemsOrdered, setItemsOrdered] = useState(items);
   const [draggingIndex, setDraggingIndex] = useState(null);
   const lastOverIndexRef = useRef(null);
 
-  const [isShowingAnswers, setIsShowingAnswers] = useState(false);
-
+  useEffect(() => setItemsOrdered(items), [items]);
   useDocumentEvent("mouseup", () => setDraggingIndex(null));
   useDocumentEvent("touchend", () => setDraggingIndex(null));
 
@@ -134,34 +132,24 @@ const OrderableList = ({ items }) => {
   };
 
   return (
-    <div>
-      <ol
-        className={`orderable-list ${draggingIndex === null ||
-          "orderable-list--dragging"} ${isShowingAnswers &&
-          "orderable-list--show-answers"}`}
-        onMouseMove={draggingIndex === null ? null : handleMouseMove}
-        onTouchMove={draggingIndex === null ? null : handleTouchMove}
-      >
-        {itemsOrdered.map(({ item, order }, index) => (
-          <OrderableListItem
-            text={item}
-            index={index}
-            order={order}
-            key={item}
-            requestEnableDragging={handleRequestEnableDragging}
-            dragging={index === draggingIndex}
-          />
-        ))}
-      </ol>
-      <div>
-        <ToggleSwitch
-          onLabel="Show Answers"
-          offLabel="Hide Answers"
-          onChange={e => setIsShowingAnswers(e.currentTarget.checked)}
-          value={isShowingAnswers}
+    <ol
+      className={`orderable-list ${draggingIndex === null ||
+        "orderable-list--dragging"} ${isShowingAnswers &&
+        "orderable-list--show-answers"}`}
+      onMouseMove={draggingIndex === null ? null : handleMouseMove}
+      onTouchMove={draggingIndex === null ? null : handleTouchMove}
+    >
+      {itemsOrdered.map(({ item, order }, index) => (
+        <OrderableListItem
+          text={item}
+          index={index}
+          order={order}
+          key={item}
+          requestEnableDragging={handleRequestEnableDragging}
+          dragging={index === draggingIndex}
         />
-      </div>
-    </div>
+      ))}
+    </ol>
   );
 };
 

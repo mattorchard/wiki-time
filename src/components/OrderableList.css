@@ -80,5 +80,7 @@
   /* Rotate based on speed */
   transform-origin: calc(var(--drag-x) * 1px) calc(var(--drag-y) * 1px);
   transition: transform linear 0.1s;
-  transform: rotateZ(min(10deg, calc(2deg * var(--mouse-speed-x))));
+  transform: rotateZ(
+    max(-20deg, min(20deg, calc(2deg * var(--mouse-speed-x))))
+  );
 }

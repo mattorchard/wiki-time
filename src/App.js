@@ -9,12 +9,12 @@ import useAuthState from "./hooks/useAuthState";
 import useTimeline from "./hooks/useTimeline";
 import Spinner from "./components/Spinner";
 import useHash from "./helpers/useHash";
-import QuizTimeline from "./components/QuizTimeline";
 import useMouseCssVars from "./hooks/useMouseCssVars";
+import OrderQuiz from "./components/OrderQuiz";
 
 firebase.initializeApp(publicFirebaseConfig);
 
-const routes = new Set(["quiz-timeline", "quiz-definitions", "import"]);
+const routes = new Set(["order-quiz", "quiz-definitions", "import"]);
 
 const App = () => {
   useMouseCssVars();
@@ -33,7 +33,7 @@ const App = () => {
             {route === "main" && (
               <MainPage timeline={timeline} entities={entities} />
             )}
-            {route === "quiz-timeline" && <QuizTimeline />}
+            {route === "order-quiz" && <OrderQuiz entities={entities} />}
             {route === "quiz-definitions" && "definitions"}
             {route === "import" && "import"}
           </Fragment>

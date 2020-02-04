@@ -1,16 +1,15 @@
-import { useRef, useState } from "preact/hooks";
-import "./QuizTimeline.css";
+import { useEffect, useRef, useState } from "preact/hooks";
+import "./OrderableList.css";
 import useDocumentEvent from "../hooks/useDocumentEvent";
 
-const noOp = () => {};
-
-const ReorderableItem = ({
+const OrderableListItem = ({
   text,
   index,
+  order,
   dragging,
   requestEnableDragging,
-  order,
 }) => {
+  const isInCorrectPosition = index === order;
   const [dragDetails, setDragDetails] = useState({
     width: 0,
     height: 0,
@@ -40,11 +39,14 @@ const ReorderableItem = ({
     });
     requestEnableDragging(index);
   };
+
   return (
     <li
       data-index={index}
-      className={`reorderable-list__item ${dragging &&
-        "reorderable-list__item--dragging"}`}
+      className={`orderable-list__item ${dragging &&
+        "orderable-list__item--dragging"} orderable-list__item--${
+        isInCorrectPosition ? "correct" : "incorrect"
+      }`}
       style={{
         "--drag-x": dragDetails.x,
         "--drag-y": dragDetails.y,
@@ -57,7 +59,7 @@ const ReorderableItem = ({
       <div
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
-        className="reorderable-list__item__content"
+        className="orderable-list__item__content"
       >
         {text}
       </div>
@@ -65,35 +67,12 @@ const ReorderableItem = ({
   );
 };
 
-const shuffle = array => {
-  array.forEach(current => {
-    const currentOrder = current.order;
-    const otherIndex = Math.floor(Math.random() * array.length);
-    current.order = array[otherIndex].order;
-    array[otherIndex].order = currentOrder;
-  });
-  return array;
-};
-
-const SAMPLE_ITEMS = shuffle(
-  [
-    "First things first",
-    "Second",
-    "Third",
-    "Fourth",
-    "Fifth",
-    "Sixth",
-    "Seventh",
-    "Eighth",
-    "Ninth",
-  ].map((item, index) => ({ item, order: index }))
-);
-
-const QuizTimeline = ({ items = SAMPLE_ITEMS }) => {
+const OrderableList = ({ items, isShowingAnswers }) => {
   const [itemsOrdered, setItemsOrdered] = useState(items);
   const [draggingIndex, setDraggingIndex] = useState(null);
   const lastOverIndexRef = useRef(null);
 
+  useEffect(() => setItemsOrdered(items), [items]);
   useDocumentEvent("mouseup", () => setDraggingIndex(null));
   useDocumentEvent("touchend", () => setDraggingIndex(null));
 
@@ -154,13 +133,14 @@ const QuizTimeline = ({ items = SAMPLE_ITEMS }) => {
 
   return (
     <ol
-      className={`reorderable-list ${draggingIndex === null ||
-        "reorderable-list--dragging"}`}
-      onMouseMove={draggingIndex === null ? noOp : handleMouseMove}
-      onTouchMove={draggingIndex === null ? noOp : handleTouchMove}
+      className={`orderable-list ${draggingIndex === null ||
+        "orderable-list--dragging"} ${isShowingAnswers &&
+        "orderable-list--show-answers"}`}
+      onMouseMove={draggingIndex === null ? null : handleMouseMove}
+      onTouchMove={draggingIndex === null ? null : handleTouchMove}
     >
       {itemsOrdered.map(({ item, order }, index) => (
-        <ReorderableItem
+        <OrderableListItem
           text={item}
           index={index}
           order={order}
@@ -173,4 +153,4 @@ const QuizTimeline = ({ items = SAMPLE_ITEMS }) => {
   );
 };
 
-export default QuizTimeline;
+export default OrderableList;

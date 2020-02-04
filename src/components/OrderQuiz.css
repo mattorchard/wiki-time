@@ -1,0 +1,28 @@
+.order-quiz {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  font-size: 150%;
+}
+.order-quiz__actions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+.order-quiz__actions > * {
+  margin-bottom: 2rem;
+}
+@media only screen and (min-width: 1200px) {
+  .order-quiz__actions {
+    flex-direction: row;
+  }
+}
+.order-quiz__entity-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.order-quiz__entity-cards > .entity-card {
+  margin: 1rem;
+}

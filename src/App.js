@@ -9,17 +9,25 @@ import useAuthState from "./hooks/useAuthState";
 import useTimeline from "./hooks/useTimeline";
 import Spinner from "./components/Spinner";
 import useHash from "./helpers/useHash";
-import QuizTimeline from "./components/QuizTimeline";
 import useMouseCssVars from "./hooks/useMouseCssVars";
+import OrderQuiz from "./components/OrderQuiz";
 
 firebase.initializeApp(publicFirebaseConfig);
 
-const routes = new Set(["quiz-timeline", "quiz-definitions", "import"]);
+const routes = new Set(["order-quiz", "quiz-definitions", "import"]);
+
+const getLectureNumber = () => {
+  const params = new URLSearchParams(window.location.search);
+  return parseInt(params.get("lectureNumber")) || null;
+};
 
 const App = () => {
   useMouseCssVars();
   const { loggedIn, currentUser } = useAuthState();
-  const { loading, timeline, entities } = useTimeline(currentUser.uid);
+  const { loading, timeline, entities } = useTimeline(
+    currentUser.uid,
+    getLectureNumber()
+  );
   const hash = useHash();
   const route = routes.has(hash) ? hash : "main";
   return (
@@ -33,7 +41,7 @@ const App = () => {
             {route === "main" && (
               <MainPage timeline={timeline} entities={entities} />
             )}
-            {route === "quiz-timeline" && <QuizTimeline />}
+            {route === "order-quiz" && <OrderQuiz entities={entities} />}
             {route === "quiz-definitions" && "definitions"}
             {route === "import" && "import"}
           </Fragment>

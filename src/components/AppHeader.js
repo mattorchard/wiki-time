@@ -40,7 +40,7 @@ const AppHeader = () => {
               <a href="#quiz-definitions" className="app-header__nav__link">
                 Match
               </a>
-              <a href="#quiz-timeline" className="app-header__nav__link">
+              <a href="#order-quiz" className="app-header__nav__link">
                 Order
               </a>
             </nav>

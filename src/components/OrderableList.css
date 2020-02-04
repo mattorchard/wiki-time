@@ -1,0 +1,91 @@
+.orderable-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .orderable-list__item {
+    width: 100%;
+  }
+}
+.orderable-list__item {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  order: var(--order);
+  user-select: none;
+}
+
+.orderable-list__item--correct .orderable-list__item__content::before,
+.orderable-list__item--incorrect .orderable-list__item__content::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  font-size: 110%;
+  border: 0.2rem solid var(--color-primary);
+  background-color: var(--color-background);
+  width: 2ch;
+  height: 2ch;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  opacity: 0;
+  content: " ";
+  transition: opacity 0.4s ease;
+}
+
+.orderable-list--show-answers
+  .orderable-list__item--correct
+  .orderable-list__item__content::before {
+  content: "✔";
+  border-color: dodgerblue;
+  opacity: 1;
+}
+
+.orderable-list--show-answers
+  .orderable-list__item--incorrect
+  .orderable-list__item__content::before {
+  content: "✖";
+  opacity: 1;
+}
+
+.orderable-list__item--dragging {
+  min-width: calc(var(--drag-width) * 1px + 2rem);
+  min-height: calc(var(--drag-height) * 1px + 2rem);
+  z-index: 2;
+}
+.orderable-list__item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.orderable-list__item__content {
+  padding: 1rem;
+  cursor: grab;
+  background-color: var(--color-background);
+  border: 0.2rem dashed var(--color-primary);
+  position: relative;
+}
+.orderable-list--dragging {
+  cursor: grabbing;
+}
+.orderable-list__item--dragging .orderable-list__item__content {
+  pointer-events: none;
+  touch-action: none;
+  position: fixed;
+  top: calc((var(--mouse-y) - var(--drag-y)) * 1px);
+  left: calc((var(--mouse-x) - var(--drag-x)) * 1px);
+  width: calc(var(--drag-width) * 1px);
+  height: calc(var(--drag-height) * 1px);
+  box-shadow: 0 0.2rem 0.4rem rgba(20, 20, 20, 0.2);
+  /* Rotate based on speed */
+  transform-origin: calc(var(--drag-x) * 1px) calc(var(--drag-y) * 1px);
+  transition: transform linear 0.1s;
+  transform: rotateZ(
+    max(-20deg, min(20deg, calc(2deg * var(--mouse-speed-x))))
+  );
+}

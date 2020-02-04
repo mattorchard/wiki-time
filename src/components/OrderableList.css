@@ -13,9 +13,47 @@
   order: var(--order);
   user-select: none;
 }
+
+.orderable-list__item--correct .orderable-list__item__content::before,
+.orderable-list__item--incorrect .orderable-list__item__content::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  font-size: 110%;
+  border: 0.2rem solid var(--color-primary);
+  background-color: var(--color-background);
+  width: 2ch;
+  height: 2ch;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  opacity: 0;
+  content: " ";
+  transition: opacity 0.4s ease;
+}
+
+.orderable-list--show-answers
+  .orderable-list__item--correct
+  .orderable-list__item__content::before {
+  content: "✔";
+  border-color: dodgerblue;
+  opacity: 1;
+}
+
+.orderable-list--show-answers
+  .orderable-list__item--incorrect
+  .orderable-list__item__content::before {
+  content: "✖";
+  opacity: 1;
+}
+
 .orderable-list__item--dragging {
   min-width: calc(var(--drag-width) * 1px + 2rem);
   min-height: calc(var(--drag-height) * 1px + 2rem);
+  z-index: 2;
 }
 .orderable-list__item:hover {
   background-color: rgba(255, 255, 255, 0.2);
@@ -25,6 +63,7 @@
   cursor: grab;
   background-color: var(--color-background);
   border: 0.2rem dashed var(--color-primary);
+  position: relative;
 }
 .orderable-list--dragging {
   cursor: grabbing;

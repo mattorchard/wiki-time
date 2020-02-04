@@ -55,12 +55,7 @@ const OrderQuiz = ({ entities }) => {
 
     [entities]
   );
-  return (
-    <div>
-      <Debug value={itemsToOrder} />
-      <OrderableList items={itemsToOrder} />
-    </div>
-  );
+  return <OrderableList items={itemsToOrder} />;
 };
 
 export default OrderQuiz;

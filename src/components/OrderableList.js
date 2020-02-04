@@ -1,8 +1,7 @@
 import { useRef, useState } from "preact/hooks";
 import "./OrderableList.css";
 import useDocumentEvent from "../hooks/useDocumentEvent";
-
-const noOp = () => {};
+import ToggleSwitch from "./ToggleSwitch";
 
 const OrderableListItem = ({
   text,
@@ -10,8 +9,6 @@ const OrderableListItem = ({
   order,
   dragging,
   requestEnableDragging,
-  beforeCorrect,
-  afterCorrect,
 }) => {
   const isInCorrectPosition = index === order;
   const [dragDetails, setDragDetails] = useState({
@@ -60,7 +57,6 @@ const OrderableListItem = ({
         "--order": order,
       }}
     >
-      {beforeCorrect && "✅"}
       <div
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
@@ -68,7 +64,6 @@ const OrderableListItem = ({
       >
         {text}
       </div>
-      {afterCorrect && "✅"}
     </li>
   );
 };
@@ -77,6 +72,8 @@ const OrderableList = ({ items }) => {
   const [itemsOrdered, setItemsOrdered] = useState(items);
   const [draggingIndex, setDraggingIndex] = useState(null);
   const lastOverIndexRef = useRef(null);
+
+  const [isShowingAnswers, setIsShowingAnswers] = useState(false);
 
   useDocumentEvent("mouseup", () => setDraggingIndex(null));
   useDocumentEvent("touchend", () => setDraggingIndex(null));
@@ -140,9 +137,10 @@ const OrderableList = ({ items }) => {
     <div>
       <ol
         className={`orderable-list ${draggingIndex === null ||
-          "orderable-list--dragging"}`}
-        onMouseMove={draggingIndex === null ? noOp : handleMouseMove}
-        onTouchMove={draggingIndex === null ? noOp : handleTouchMove}
+          "orderable-list--dragging"} ${isShowingAnswers &&
+          "orderable-list--show-answers"}`}
+        onMouseMove={draggingIndex === null ? null : handleMouseMove}
+        onTouchMove={draggingIndex === null ? null : handleTouchMove}
       >
         {itemsOrdered.map(({ item, order }, index) => (
           <OrderableListItem
@@ -156,9 +154,12 @@ const OrderableList = ({ items }) => {
         ))}
       </ol>
       <div>
-        <button type="button" className="btn">
-          Check Answer
-        </button>
+        <ToggleSwitch
+          onLabel="Show Answers"
+          offLabel="Hide Answers"
+          onChange={e => setIsShowingAnswers(e.currentTarget.checked)}
+          value={isShowingAnswers}
+        />
       </div>
     </div>
   );

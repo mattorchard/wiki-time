@@ -1,0 +1,27 @@
+.entity-card {
+  width: 50ch;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+.entity-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+.entity-card__title {
+  font-size: 125%;
+  border-bottom: 0.2rem solid var(--color-primary);
+}
+.entity-card__times {
+  font-size: 125%;
+  flex-shrink: 0;
+}
+.entity-card__description {
+  white-space: pre-line;
+}
+.entity-card__footer {
+  font-size: 75%;
+  align-self: flex-end;
+}

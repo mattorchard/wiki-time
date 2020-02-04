@@ -18,3 +18,11 @@
     flex-direction: row;
   }
 }
+.order-quiz__entity-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.order-quiz__entity-cards > .entity-card {
+  margin: 1rem;
+}

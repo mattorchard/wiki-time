@@ -2,6 +2,7 @@ import { useMemo, useState } from "preact/hooks";
 import OrderableList from "./OrderableList";
 import ToggleSwitch from "./ToggleSwitch";
 import "./OrderQuiz.css";
+import EntityCard from "./EntityCard";
 
 const getOrderableEntities = entities =>
   entities.filter(entity => entity.startYear || entity.startYear === 0);
@@ -36,8 +37,11 @@ const shuffleOrder = array => {
   return array;
 };
 
-const entityComparator = (entityA, entityB) =>
+const startYearComparator = (entityA, entityB) =>
   entityA.startYear - entityB.startYear;
+
+const descriptionLengthComparator = (entityA, entityB) =>
+  entityA.description.length - entityB.description.length;
 
 const OrderQuiz = ({ entities }) => {
   const [isShowingAnswers, setIsShowingAnswers] = useState(false);
@@ -45,19 +49,21 @@ const OrderQuiz = ({ entities }) => {
   const orderableEntities = useMemo(() => getOrderableEntities(entities), [
     entities,
   ]);
-  const itemsToOrder = useMemo(
-    () =>
-      shuffleOrder(
-        chooseEntitiesToOrder(orderableEntities, 5)
-          .sort(entityComparator)
-          .map((entity, index) => ({
-            item: entity.name,
-            order: index,
-          }))
-      ),
 
-    [entities, questionNumber]
-  );
+  const [entitiesToOrder, itemsToOrder] = useMemo(() => {
+    const entitiesToOrder = chooseEntitiesToOrder(orderableEntities, 5).sort(
+      descriptionLengthComparator
+    );
+
+    const itemsToOrder = shuffleOrder(
+      [...entitiesToOrder].sort(startYearComparator).map((entity, index) => ({
+        item: entity.name,
+        order: index,
+      }))
+    );
+    return [entitiesToOrder, itemsToOrder];
+  }, [entities, questionNumber]);
+
   return (
     <div className="order-quiz">
       <div className="order-quiz__actions">
@@ -79,6 +85,13 @@ const OrderQuiz = ({ entities }) => {
         </button>
       </div>
       <OrderableList items={itemsToOrder} isShowingAnswers={isShowingAnswers} />
+      {isShowingAnswers && (
+        <section className="order-quiz__entity-cards">
+          {entitiesToOrder.map(entity => (
+            <EntityCard key={entity.id} entity={entity} />
+          ))}
+        </section>
+      )}
     </div>
   );
 };

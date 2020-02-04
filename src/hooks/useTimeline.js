@@ -2,12 +2,13 @@ import { useEffect, useState } from "preact/hooks";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import { noCleanup } from "./hookUtils";
+import { capitalizeAsTitle } from "../helpers/textHelpers";
 
 const formatEntitySnaps = callback => querySnapshot =>
   callback(
     querySnapshot.docs.map(snap => ({
       id: snap.id,
-      name: snap.id.replace(/_/g, " "),
+      name: capitalizeAsTitle(snap.id.replace(/_/g, " ")),
       ...snap.data(),
     }))
   );

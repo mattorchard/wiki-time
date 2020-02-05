@@ -3,10 +3,16 @@
   flex-direction: column;
   margin-top: 1rem;
   align-items: center;
+  font-size: 150%;
+}
+.match-quiz__header {
+  display: flex;
+  align-items: center;
 }
 .match-quiz__title {
-  font-size: 200%;
+  font-size: 125%;
   border-bottom: 0.2rem solid var(--color-primary);
+  margin: 1rem;
 }
 .match-quiz__description-list {
   margin-top: 1rem;
@@ -22,15 +28,22 @@
 }
 .match-quiz__description-list-item {
   display: flex;
-  width: 100%;
-  height: 100%;
+  position: relative;
 }
 .match-quiz__description-list__button {
-  font-size: 125%;
   width: 100%;
   height: 100%;
   text-align: left;
   white-space: pre-wrap;
-  background-color: var(--color-primary);
+  border: 0.2rem solid var(--color-primary);
   padding: 1rem;
+  transition: background-color 0.2s ease;
+}
+.match-quiz__description-list__button__content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.match-quiz__description-list__button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }

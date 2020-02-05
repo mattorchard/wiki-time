@@ -1,7 +1,6 @@
-import { useMemo } from "preact/hooks";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import "./MatchQuiz.css";
-
-const questionNumber = 1;
+import MarkBadge from "./MarkBadge";
 
 const chooseRandom = array => Math.floor(Math.random() * array.length);
 
@@ -16,40 +15,49 @@ const chooseEntitiesToMatch = (entities, amount) => {
   });
 };
 
-const shuffle = array => {
-  const arrayToShuffle = [...array];
-  arrayToShuffle.forEach((value, index) => {
-    const randomIndex = chooseRandom(arrayToShuffle);
-    arrayToShuffle[index] = arrayToShuffle[randomIndex];
-    arrayToShuffle[randomIndex] = value;
-  });
-  return arrayToShuffle;
-};
-
 const MatchQuiz = ({ entities }) => {
-  console.log(entities);
-  const entitiesToMatch = useMemo(() => chooseEntitiesToMatch(entities, 4), [
-    entities,
-    questionNumber,
-  ]);
-  const [title, descriptions] = useMemo(() => {
-    const [{ name }] = entitiesToMatch;
-    const descriptions = entitiesToMatch
-      .map(entity => entity.description)
-      .sort((a, b) => a.length - b.length);
-    return [name, descriptions];
-  }, [entitiesToMatch]);
+  const [questionNumber, setQuestionNumber] = useState(1);
+  const [isShowingAnswers, setIsShowingAnswers] = useState(false);
+
+  useEffect(() => setIsShowingAnswers(false), [questionNumber]);
+
+  const [answerEntity, questionEntities] = useMemo(() => {
+    const entitiesToMatch = chooseEntitiesToMatch(entities, 4);
+    const [answer] = entitiesToMatch;
+    const questions = entitiesToMatch.sort(
+      (a, b) => a.description.length - b.description.length
+    );
+    return [answer, questions];
+  }, [questionNumber]);
+
   return (
     <div className="match-quiz">
-      <h2 className="match-quiz__title">{title}</h2>
+      <div className="match-quiz__header">
+        <h2 className="match-quiz__title">{answerEntity.name}</h2>
+        <button
+          type="button"
+          className="btn"
+          onClick={() =>
+            setQuestionNumber(questionNumber => questionNumber + 1)
+          }
+        >
+          Next Question
+        </button>
+      </div>
       <ul className="match-quiz__description-list">
-        {descriptions.map((description, index) => (
-          <li key={index} className="match-quiz__description-list-item">
+        {questionEntities.map(({ id, description }) => (
+          <li key={id} className="match-quiz__description-list-item">
+            {isShowingAnswers && (
+              <MarkBadge isCorrect={id === answerEntity.id} />
+            )}
             <button
               type="button"
+              onClick={() => setIsShowingAnswers(true)}
               className="non-btn match-quiz__description-list__button"
             >
-              {description}
+              <div className="match-quiz__description-list__button__content">
+                {description}
+              </div>
             </button>
           </li>
         ))}

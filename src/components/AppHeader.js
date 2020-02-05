@@ -37,7 +37,7 @@ const AppHeader = () => {
               <a href="#import" className="app-header__nav__link">
                 Import
               </a>
-              <a href="#quiz-definitions" className="app-header__nav__link">
+              <a href="#match-quiz" className="app-header__nav__link">
                 Match
               </a>
               <a href="#order-quiz" className="app-header__nav__link">

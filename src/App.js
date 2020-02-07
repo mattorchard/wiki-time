@@ -11,10 +11,11 @@ import Spinner from "./components/Spinner";
 import useHash from "./helpers/useHash";
 import useMouseCssVars from "./hooks/useMouseCssVars";
 import OrderQuiz from "./components/OrderQuiz";
+import MatchQuiz from "./components/MatchQuiz";
 
 firebase.initializeApp(publicFirebaseConfig);
 
-const routes = new Set(["order-quiz", "quiz-definitions", "import"]);
+const routes = new Set(["order-quiz", "match-quiz", "import"]);
 
 const getLectureNumber = () => {
   const params = new URLSearchParams(window.location.search);
@@ -42,7 +43,7 @@ const App = () => {
               <MainPage timeline={timeline} entities={entities} />
             )}
             {route === "order-quiz" && <OrderQuiz entities={entities} />}
-            {route === "quiz-definitions" && "definitions"}
+            {route === "match-quiz" && <MatchQuiz entities={entities} />}
             {route === "import" && "import"}
           </Fragment>
         ))}

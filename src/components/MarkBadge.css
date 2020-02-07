@@ -1,0 +1,33 @@
+.mark-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border: 0.2rem solid var(--color-primary);
+  background-color: var(--color-background);
+  width: 2ch;
+  height: 2ch;
+  padding: 0.1ch;
+  display: flex;
+  border-radius: 50%;
+  animation: fade-in 0.4s ease 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mark-badge--correct {
+  border-color: dodgerblue;
+}
+
+.mark-badge > svg {
+  width: 100%;
+  height: auto;
+}

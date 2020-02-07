@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import "./OrderableList.css";
 import useDocumentEvent from "../hooks/useDocumentEvent";
+import MarkBadge from "./MarkBadge";
 
 const OrderableListItem = ({
   text,
   index,
   order,
   dragging,
+  isShowingAnswers,
   requestEnableDragging,
 }) => {
   const isInCorrectPosition = index === order;
@@ -61,6 +63,7 @@ const OrderableListItem = ({
         onTouchStart={handleTouchStart}
         className="orderable-list__item__content"
       >
+        {isShowingAnswers && <MarkBadge isCorrect={isInCorrectPosition} />}
         {text}
       </div>
     </li>
@@ -145,6 +148,7 @@ const OrderableList = ({ items, isShowingAnswers }) => {
           index={index}
           order={order}
           key={item}
+          isShowingAnswers={isShowingAnswers}
           requestEnableDragging={handleRequestEnableDragging}
           dragging={index === draggingIndex}
         />

@@ -54,7 +54,9 @@
   width: calc(var(--index-width) - 0.75em - 0.2rem - var(--scroll-width));
   transition: text-decoration-color 0.3s ease;
 }
-
+.entity-index__result--empty .entity-index__result__button {
+  text-decoration-color: var(--color-primary);
+}
 .entity-index__result__button:focus {
   outline: none;
   text-decoration-color: var(--color-focus);

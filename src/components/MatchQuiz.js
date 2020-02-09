@@ -30,6 +30,10 @@ const MatchQuiz = ({ entities }) => {
     return [answer, questions];
   }, [questionNumber]);
 
+  if (!answerEntity) {
+    return "You must have some entities with descriptions";
+  }
+
   return (
     <div className="match-quiz">
       <div className="match-quiz__header">

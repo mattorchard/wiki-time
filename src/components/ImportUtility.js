@@ -2,6 +2,8 @@ import { useState } from "preact/hooks";
 import "./ImportUtility.css";
 import InputField from "./InputField";
 import { saveEntity } from "../helpers/entityHelpers";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 const bcePattern = new RegExp("(BC)", "i");
 
@@ -31,7 +33,8 @@ const parseLine = line => {
   };
 };
 
-const importEntities = (uid, overrides, rawData) => {
+const importEntities = (overrides, rawData) => {
+  const { uid } = firebase.auth().currentUser;
   const entities = rawData
     .split(/\r?\n/)
     .map(line => line.trimStart().trimEnd())
@@ -47,19 +50,16 @@ const importEntities = (uid, overrides, rawData) => {
     .catch(console.error);
 };
 
-const ImportUtility = ({ uid }) => {
+const ImportUtility = () => {
   const [lecture, setLecture] = useState("");
   const [rawData, setRawData] = useState("");
   const handleSubmit = event => {
     event.preventDefault();
-    if (!uid) {
-      throw new Error(`Must be logged in`);
-    }
     const lectureNumber = parseInt(lecture);
     if (!lectureNumber) {
       throw new Error(`Must have a lecture number`);
     }
-    return importEntities(uid, { lectureNumber }, rawData);
+    return importEntities({ lectureNumber }, rawData);
   };
   return (
     <form onSubmit={handleSubmit} className="import-utility">

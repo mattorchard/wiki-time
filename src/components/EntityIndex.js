@@ -32,7 +32,8 @@ const EntityIndex = ({ entities, onSelect }) => {
         >
           {searchResults.map(entity => (
             <li
-              className="entity-index__result"
+              className={`entity-index__result ${entity.description ||
+                "entity-index__result--empty"}`}
               key={entity.id}
               data-entity-id={entity.id}
             >

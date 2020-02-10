@@ -36,7 +36,7 @@ const useTimeline = (uid, lectureNumber) => {
     return firebase
       .firestore()
       .collection("timelines")
-      .doc(uid)
+      .doc("early-empire")
       .onSnapshot(snap => setTimeline(snap.data()));
   }, [uid]);
 
@@ -48,7 +48,7 @@ const useTimeline = (uid, lectureNumber) => {
       return firebase
         .firestore()
         .collection("timelines")
-        .doc(uid)
+        .doc("early-empire")
         .collection("entities")
         .where("lectureNumber", "<=", lectureNumber)
         .onSnapshot(formatEntitySnaps(setEntities));
@@ -56,7 +56,7 @@ const useTimeline = (uid, lectureNumber) => {
     return firebase
       .firestore()
       .collection("timelines")
-      .doc(uid)
+      .doc("early-empire")
       .collection("entities")
       .onSnapshot(formatEntitySnaps(setEntities));
   }, [uid]);

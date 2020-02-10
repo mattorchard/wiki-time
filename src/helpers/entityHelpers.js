@@ -28,11 +28,12 @@ export const saveEntity = uid => async ({
 
   console.log("Saving entity", entity);
 
-  return firebase
+  await firebase
     .firestore()
     .collection("timelines")
-    .doc(uid)
+    .doc("early-empire")
     .collection("entities")
     .doc(entity.id)
     .set(entity);
+  return entity;
 };

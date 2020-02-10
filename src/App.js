@@ -12,6 +12,7 @@ import useHash from "./helpers/useHash";
 import useMouseCssVars from "./hooks/useMouseCssVars";
 import OrderQuiz from "./components/OrderQuiz";
 import MatchQuiz from "./components/MatchQuiz";
+import ImportPage from "./components/ImportPage";
 
 firebase.initializeApp(publicFirebaseConfig);
 
@@ -44,7 +45,7 @@ const App = () => {
             )}
             {route === "order-quiz" && <OrderQuiz entities={entities} />}
             {route === "match-quiz" && <MatchQuiz entities={entities} />}
-            {route === "import" && "import"}
+            {route === "import" && <ImportPage />}
           </Fragment>
         ))}
     </Fragment>

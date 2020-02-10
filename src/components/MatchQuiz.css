@@ -3,7 +3,11 @@
   flex-direction: column;
   margin-top: 1rem;
   align-items: center;
-  font-size: 150%;
+}
+@media only screen and (min-width: 1000px) {
+  .match-quiz {
+    font-size: 150%;
+  }
 }
 .match-quiz__header {
   display: flex;
@@ -20,10 +24,12 @@
   grid-template-columns: 100%;
   grid-gap: 1rem;
   max-width: 1200px;
+  padding: 0.5rem;
 }
 @media only screen and (min-width: 1000px) {
   .match-quiz__description-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 1rem;
   }
 }
 .match-quiz__description-list-item {

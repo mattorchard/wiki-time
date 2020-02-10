@@ -13,6 +13,11 @@ import useMouseCssVars from "./hooks/useMouseCssVars";
 import OrderQuiz from "./components/OrderQuiz";
 import MatchQuiz from "./components/MatchQuiz";
 import ImportPage from "./components/ImportPage";
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js");
+  });
+}
 
 firebase.initializeApp(publicFirebaseConfig);
 

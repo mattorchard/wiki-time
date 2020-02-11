@@ -10,7 +10,7 @@ const getOrderableEntities = entities =>
 const chooseRandom = array => Math.floor(Math.random() * array.length);
 
 const entitiesCollide = (entityA, entityB) =>
-  Math.abs(entityA.startYear - entityB.startYear) < 2;
+  Math.abs(entityA.startYear - entityB.startYear) < 1;
 
 const chooseEntitiesToOrder = (orderableEntities, amount) => {
   const entitiesToChooseFrom = [...orderableEntities];

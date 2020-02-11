@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel ./src/index.html",
-    "build": "parcel build ./src/index.html"
+    "build": "parcel build ./src/index.html&&workbox generateSW"
   },
   "dependencies": {
     "preact": "^10.2.1",
     "firebase": "^7.6.1"
   },
   "devDependencies": {
+    "workbox-cli": "^5.0.0",
     "@babel/core": "^7.7.7",
     "@babel/plugin-transform-react-jsx": "^7.7.7",
     "@babel/plugin-transform-runtime": "^7.7.6",

@@ -1,5 +1,6 @@
 import { Fragment, render } from "preact";
 import firebase from "firebase/app";
+import "firebase/firestore";
 import "./styles/reset.css";
 import "./styles/global.css";
 import publicFirebaseConfig from "./public-firebase-config";
@@ -20,6 +21,11 @@ if ("serviceWorker" in navigator) {
 }
 
 firebase.initializeApp(publicFirebaseConfig);
+firebase
+  .firestore()
+  .enablePersistence()
+  .then(() => console.log("Offline firestore enabled"))
+  .catch(error => console.error("Failed to enable offline firestore", error));
 
 const routes = new Set(["order-quiz", "match-quiz", "import"]);
 

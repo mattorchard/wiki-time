@@ -51,7 +51,7 @@ const OrderQuiz = ({ entities }) => {
   ]);
 
   const [entitiesToOrder, itemsToOrder] = useMemo(() => {
-    const entitiesToOrder = chooseEntitiesToOrder(orderableEntities, 5).sort(
+    const entitiesToOrder = chooseEntitiesToOrder(orderableEntities, 3).sort(
       descriptionLengthComparator
     );
 

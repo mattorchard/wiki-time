@@ -50,7 +50,7 @@ const useTimeline = (uid, lectureNumber) => {
         .collection("timelines")
         .doc("early-empire")
         .collection("entities")
-        .where("lectureNumber", "<=", lectureNumber)
+        .where("lectureNumber", "==", lectureNumber)
         .onSnapshot(formatEntitySnaps(setEntities));
     }
     return firebase

@@ -31,7 +31,7 @@ const routes = new Set(["order-quiz", "match-quiz", "import"]);
 
 const getLectureNumber = () => {
   const params = new URLSearchParams(window.location.search);
-  return parseInt(params.get("lectureNumber")) || null;
+  return parseInt(params.get("minLectureNumber")) || null;
 };
 
 const App = () => {

@@ -25,7 +25,7 @@ const formatEntitySnaps = callback => querySnapshot =>
       .sort(idComparator)
   );
 
-const useTimeline = (uid, lectureNumber) => {
+const useTimeline = (uid, minLectureNumber) => {
   const [timeline, setTimeline] = useState(null);
   const [entities, setEntities] = useState(null);
 
@@ -44,21 +44,17 @@ const useTimeline = (uid, lectureNumber) => {
     if (!uid) {
       return noCleanup;
     }
-    if (lectureNumber) {
-      return firebase
-        .firestore()
-        .collection("timelines")
-        .doc("early-empire")
-        .collection("entities")
-        .where("lectureNumber", "==", lectureNumber)
-        .onSnapshot(formatEntitySnaps(setEntities));
-    }
-    return firebase
+    const collectionRef = firebase
       .firestore()
       .collection("timelines")
       .doc("early-empire")
-      .collection("entities")
-      .onSnapshot(formatEntitySnaps(setEntities));
+      .collection("entities");
+    if (minLectureNumber) {
+      return collectionRef
+        .where("lectureNumber", ">=", minLectureNumber)
+        .onSnapshot(formatEntitySnaps(setEntities));
+    }
+    return collectionRef.onSnapshot(formatEntitySnaps(setEntities));
   }, [uid]);
 
   const loadingTimeline = timeline === null;

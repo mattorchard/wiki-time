@@ -25,25 +25,30 @@ const formatEntitySnaps = callback => querySnapshot =>
       .sort(idComparator)
   );
 
+const getTimelineBounds = entities => {
+  const allYears = entities
+    .flatMap(entity => [entity.startYear, entity.endYear])
+    .filter(Boolean);
+
+  return {
+    startYear: Math.floor(Math.min(...allYears)) - 1,
+    endYear: Math.max(Math.max(...allYears)) + 1,
+  };
+};
+
 const useTimeline = (uid, minLectureNumber) => {
-  const [timeline, setTimeline] = useState(null);
+  const [meta, setMeta] = useState({ startYear: null, endYear: null });
   const [entities, setEntities] = useState(null);
 
   useEffect(() => {
     if (!uid) {
       return noCleanup;
     }
-    return firebase
-      .firestore()
-      .collection("timelines")
-      .doc("early-empire")
-      .onSnapshot(snap => setTimeline(snap.data()));
-  }, [uid]);
+    const handleSnap = formatEntitySnaps(entities => {
+      setEntities(entities);
+      setMeta(getTimelineBounds(entities));
+    });
 
-  useEffect(() => {
-    if (!uid) {
-      return noCleanup;
-    }
     const collectionRef = firebase
       .firestore()
       .collection("timelines")
@@ -52,21 +57,15 @@ const useTimeline = (uid, minLectureNumber) => {
     if (minLectureNumber) {
       return collectionRef
         .where("lectureNumber", ">=", minLectureNumber)
-        .onSnapshot(formatEntitySnaps(setEntities));
+        .onSnapshot(handleSnap);
     }
-    return collectionRef.onSnapshot(formatEntitySnaps(setEntities));
+    return collectionRef.onSnapshot(handleSnap);
   }, [uid]);
 
-  const loadingTimeline = timeline === null;
-  const loadingEntities = entities === null;
-  const loading = loadingTimeline || loadingEntities;
-
   return {
-    timeline,
+    ...meta,
     entities,
-    loadingTimeline,
-    loadingEntities,
-    loading,
+    loading: entities === null,
   };
 };
 

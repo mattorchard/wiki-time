@@ -37,7 +37,7 @@ const getLectureNumber = () => {
 const App = () => {
   useMouseCssVars();
   const { loggedIn, currentUser } = useAuthState();
-  const { loading, timeline, entities } = useTimeline(
+  const { loading, startYear, endYear, entities } = useTimeline(
     currentUser.uid,
     getLectureNumber()
   );
@@ -52,7 +52,11 @@ const App = () => {
         ) : (
           <Fragment>
             {route === "main" && (
-              <MainPage timeline={timeline} entities={entities} />
+              <MainPage
+                startYear={startYear}
+                endYear={endYear}
+                entities={entities}
+              />
             )}
             {route === "order-quiz" && <OrderQuiz entities={entities} />}
             {route === "match-quiz" && <MatchQuiz entities={entities} />}

@@ -4,7 +4,7 @@ import EntityIndex from "./EntityIndex";
 import "./MainPage.css";
 import { useState } from "preact/hooks";
 
-const MainPage = ({ entities, timeline }) => {
+const MainPage = ({ entities, startYear, endYear }) => {
   const [selectedEntity, setSelectedEntity] = useState(null);
 
   const handleSelectEntity = entityId =>
@@ -15,8 +15,8 @@ const MainPage = ({ entities, timeline }) => {
   return (
     <main
       style={{
-        "--timeline-start": timeline.start,
-        "--timeline-end": timeline.end,
+        "--timeline-start": startYear,
+        "--timeline-end": endYear,
       }}
       onKeyDown={event =>
         event.key.toLowerCase() === "escape" && deselectEntity()
@@ -30,8 +30,8 @@ const MainPage = ({ entities, timeline }) => {
       )}
       <div className="entity-lists">
         <Timeline
-          start={timeline.start}
-          end={timeline.end}
+          start={startYear}
+          end={endYear}
           entities={entities}
           increment={1}
           onSelect={handleSelectEntity}

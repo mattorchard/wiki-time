@@ -1,4 +1,5 @@
 import { Fragment, render } from "preact";
+import { useState } from "preact/hooks";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "./styles/reset.css";
@@ -36,6 +37,7 @@ const getLectureNumber = () => {
 
 const App = () => {
   useMouseCssVars();
+  const [headerHeight, setHeaderHeight] = useState(40);
   const { loggedIn, currentUser } = useAuthState();
   const { loading, startYear, endYear, entities } = useTimeline(
     currentUser.uid,
@@ -45,8 +47,8 @@ const App = () => {
   const route = routes.has(hash) ? hash : "main";
 
   return (
-    <Fragment>
-      <AppHeader />
+    <div style={{ "--header-height": headerHeight }}>
+      <AppHeader onSizeChange={({ height }) => setHeaderHeight(height)} />
       {loggedIn &&
         (loading ? (
           <Spinner />
@@ -64,7 +66,7 @@ const App = () => {
             {route === "import" && <ImportPage />}
           </Fragment>
         ))}
-    </Fragment>
+    </div>
   );
 };
 

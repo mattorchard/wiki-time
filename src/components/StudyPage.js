@@ -3,6 +3,7 @@ import "./StudyPage.css";
 import useTimelineFilter from "../hooks/useTimelineFilter";
 import { useMemo } from "preact/hooks";
 import EntityIndex from "./EntityIndex";
+import useMediaQuery from "../hooks/useMediaQuery";
 
 const getClosestAncestorWithAttribute = (element, attribute) =>
   element.closest
@@ -110,11 +111,12 @@ const TimelineSection = ({ entities, startYear, endYear, onSelectEntity }) => {
 };
 
 const StudyPage = ({ entities, startYear, endYear }) => {
+  const sideBySide = useMediaQuery("(min-width: 1000px)");
   return (
     <Fragment>
       <main
         className="entity-list-wrappers"
-        style={{ "--index-width": "25vw" }}
+        style={{ "--index-width": sideBySide ? "25vw" : "100vw" }}
       >
         <TimelineSection
           startYear={startYear}

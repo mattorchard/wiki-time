@@ -5,7 +5,6 @@ import "./styles/reset.css";
 import "./styles/global.css";
 import publicFirebaseConfig from "./public-firebase-config";
 import AppHeader from "./components/AppHeader";
-import MainPage from "./components/MainPage";
 import useAuthState from "./hooks/useAuthState";
 import useTimeline from "./hooks/useTimeline";
 import Spinner from "./components/Spinner";
@@ -14,6 +13,7 @@ import useMouseCssVars from "./hooks/useMouseCssVars";
 import OrderQuiz from "./components/OrderQuiz";
 import MatchQuiz from "./components/MatchQuiz";
 import ImportPage from "./components/ImportPage";
+import StudyPage from "./components/StudyPage";
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("/sw.js");
@@ -43,6 +43,7 @@ const App = () => {
   );
   const hash = useHash();
   const route = routes.has(hash) ? hash : "main";
+
   return (
     <Fragment>
       <AppHeader />
@@ -52,7 +53,7 @@ const App = () => {
         ) : (
           <Fragment>
             {route === "main" && (
-              <MainPage
+              <StudyPage
                 startYear={startYear}
                 endYear={endYear}
                 entities={entities}

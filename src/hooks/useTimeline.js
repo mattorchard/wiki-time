@@ -25,52 +25,47 @@ const formatEntitySnaps = callback => querySnapshot =>
       .sort(idComparator)
   );
 
-const useTimeline = (uid, lectureNumber) => {
-  const [timeline, setTimeline] = useState(null);
+const getTimelineBounds = entities => {
+  const allYears = entities
+    .flatMap(entity => [entity.startYear, entity.endYear])
+    .filter(Boolean);
+
+  return {
+    startYear: Math.floor(Math.min(...allYears)) - 1,
+    endYear: Math.max(Math.max(...allYears)) + 1,
+  };
+};
+
+const useTimeline = (uid, minLectureNumber) => {
+  const [meta, setMeta] = useState({ startYear: null, endYear: null });
   const [entities, setEntities] = useState(null);
 
   useEffect(() => {
     if (!uid) {
       return noCleanup;
     }
-    return firebase
+    const handleSnap = formatEntitySnaps(entities => {
+      setEntities(entities);
+      setMeta(getTimelineBounds(entities));
+    });
+
+    const collectionRef = firebase
       .firestore()
       .collection("timelines")
       .doc("early-empire")
-      .onSnapshot(snap => setTimeline(snap.data()));
-  }, [uid]);
-
-  useEffect(() => {
-    if (!uid) {
-      return noCleanup;
+      .collection("entities");
+    if (minLectureNumber) {
+      return collectionRef
+        .where("lectureNumber", ">=", minLectureNumber)
+        .onSnapshot(handleSnap);
     }
-    if (lectureNumber) {
-      return firebase
-        .firestore()
-        .collection("timelines")
-        .doc("early-empire")
-        .collection("entities")
-        .where("lectureNumber", "==", lectureNumber)
-        .onSnapshot(formatEntitySnaps(setEntities));
-    }
-    return firebase
-      .firestore()
-      .collection("timelines")
-      .doc("early-empire")
-      .collection("entities")
-      .onSnapshot(formatEntitySnaps(setEntities));
+    return collectionRef.onSnapshot(handleSnap);
   }, [uid]);
-
-  const loadingTimeline = timeline === null;
-  const loadingEntities = entities === null;
-  const loading = loadingTimeline || loadingEntities;
 
   return {
-    timeline,
+    ...meta,
     entities,
-    loadingTimeline,
-    loadingEntities,
-    loading,
+    loading: entities === null,
   };
 };
 

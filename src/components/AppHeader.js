@@ -5,18 +5,22 @@ import { useEffect, useRef } from "preact/hooks";
 import usePopover from "../hooks/usePopOver";
 import useWindowEvent from "../hooks/useWindowEvent";
 import CandyBox from "./CandyBox";
+import useResizeObserver from "../hooks/useResizeObserver";
 
-const AppHeader = () => {
+const AppHeader = ({ onSizeChange }) => {
+  const { ref: headerRef } = useResizeObserver({ onResize: onSizeChange });
+
   const actionsRef = useRef(null);
   const needsOverflow = useMediaQuery("(max-width: 1200px)");
   const [isOverflowOpen, openOverflow, closeOverflow] = usePopover(actionsRef);
+
   useWindowEvent("hashchange", closeOverflow);
   useEffect(closeOverflow, [needsOverflow]);
 
   const showActions = !needsOverflow || isOverflowOpen;
 
   return (
-    <header className="app-header">
+    <header className="app-header" ref={headerRef}>
       <h1 className="app-header__brand">Early Empire</h1>
       <div className="app-header__actions-container" ref={actionsRef}>
         {needsOverflow && (

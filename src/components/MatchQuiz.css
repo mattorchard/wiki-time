@@ -4,11 +4,6 @@
   margin-top: 1rem;
   align-items: center;
 }
-@media only screen and (min-width: 1000px) {
-  .match-quiz {
-    font-size: 150%;
-  }
-}
 .match-quiz__header {
   display: flex;
   align-items: center;

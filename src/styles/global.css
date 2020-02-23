@@ -16,6 +16,11 @@ body {
   background-color: var(--color-background);
   color: var(--color-text);
 }
+@media only screen and (min-width: 1000px) {
+  body {
+    font-size: 150%;
+  }
+}
 .btn {
   background-color: var(--color-primary);
   color: var(--color-text);

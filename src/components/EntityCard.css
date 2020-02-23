@@ -11,17 +11,17 @@
   margin-bottom: 0.5em;
 }
 .entity-card__title {
-  font-size: 125%;
+  font-size: 1.25em;
   border-bottom: 0.2rem solid var(--color-primary);
 }
 .entity-card__times {
-  font-size: 125%;
+  font-size: 1.25em;
   flex-shrink: 0;
 }
 .entity-card__description {
   white-space: pre-line;
 }
 .entity-card__footer {
-  font-size: 75%;
+  font-size: 0.75em;
   align-self: flex-end;
 }

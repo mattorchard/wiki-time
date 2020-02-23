@@ -1,6 +1,5 @@
 .entity-timeline {
   padding-left: 1rem;
-  font-size: 150%;
   display: grid;
   grid-template-columns: max-content;
   grid-gap: 0.5rem;

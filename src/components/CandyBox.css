@@ -1,10 +1,9 @@
 .candy-box {
-  font-size: 150%;
   display: grid;
-  grid-template-columns: repeat(3, 0.2em);
-  grid-template-rows: repeat(3, 0.2em);
-  grid-gap: 0.2em;
-  padding: 0.2em;
+  grid-template-columns: repeat(3, 0.3em);
+  grid-template-rows: repeat(3, 0.3em);
+  grid-gap: 0.3em;
+  padding: 0.3em;
 }
 .candy-box__dot {
   display: inline-block;

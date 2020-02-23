@@ -3,11 +3,6 @@
   flex-direction: column;
   margin: 1rem;
 }
-@media only screen and (min-width: 1000px) {
-  .order-quiz {
-    font-size: 150%;
-  }
-}
 .order-quiz__actions {
   display: flex;
   justify-content: space-around;

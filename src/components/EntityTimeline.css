@@ -1,0 +1,40 @@
+.entity-timeline {
+  padding-left: 1rem;
+  font-size: 150%;
+  display: grid;
+  grid-template-columns: max-content;
+  grid-gap: 0.5rem;
+  overflow-y: scroll;
+  flex-grow: 2;
+}
+.timeline__year-marker {
+  align-self: center;
+}
+.timeline__range {
+  margin: 0.2rem;
+  padding: 0.2rem;
+  border-left: 0.2rem solid;
+  background-color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+.timeline-range__name {
+  text-decoration: underline;
+}
+.timeline-range__year {
+  margin-top: auto;
+  align-self: flex-end;
+}
+.timeline__event-group {
+  border-left: 0.2rem solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.timeline__event-item {
+  margin: 0.2rem 0.2rem 0.2rem 0;
+  padding: 0.2rem;
+  background-color: var(--color-primary);
+  text-decoration: none;
+}

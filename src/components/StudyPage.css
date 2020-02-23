@@ -4,10 +4,12 @@
   justify-content: space-between;
   overflow: hidden;
   flex-direction: column-reverse;
+  --index-width: 100vw;
 }
 @media only screen and (min-width: 1000px) {
   .study-page {
     flex-direction: row;
     max-height: calc(100vh - 1px * var(--header-height) - 1rem);
+    --index-width: 25vw;
   }
 }

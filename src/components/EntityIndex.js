@@ -45,11 +45,9 @@ const EntityIndex = ({ entities, onSelect }) => {
           </li>
         ))}
       </ol>
-      {query && (
-        <div>
-          Showing {searchResults.length} of {entities.length} entities
-        </div>
-      )}
+      <div>
+        Showing {searchResults.length} of {entities.length} entities
+      </div>
     </div>
   );
 };

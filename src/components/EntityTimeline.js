@@ -57,16 +57,19 @@ const EntityTimeline = ({ entities, startYear, endYear, onSelect }) => {
       className="entity-timeline"
       style={{ "--start-year": startYear, "--end-year": endYear }}
     >
-      {ticks.map(year => (
-        <div
-          className="timeline__year-marker"
-          style={{
-            gridRowStart: year,
-          }}
-        >
-          {formatYear(year)}
-        </div>
-      ))}
+      {ticks.map(
+        year =>
+          year === 0 || (
+            <div
+              className="timeline__year-marker"
+              style={{
+                gridRowStart: year,
+              }}
+            >
+              {formatYear(year)}
+            </div>
+          )
+      )}
       {groupedEvents.map(([startYear, events]) => (
         <div
           className="timeline__event-group"

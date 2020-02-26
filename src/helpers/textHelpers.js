@@ -27,8 +27,10 @@ const capitalizeFirst = word => {
 export const capitalizeAsTitle = text => {
   const words = text.toLowerCase().split(/\b/);
   return words
-    .map(word =>
-      wordsNotToCapitalize.has(word) ? word : capitalizeFirst(word)
+    .map((word, index) =>
+      wordsNotToCapitalize.has(word) && index !== 0
+        ? word
+        : capitalizeFirst(word)
     )
     .join("");
 };

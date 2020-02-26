@@ -8,6 +8,8 @@
 }
 .timeline__year-marker {
   align-self: center;
+  justify-self: flex-end;
+  grid-column: 1;
 }
 .timeline__range {
   margin: 0.2rem;

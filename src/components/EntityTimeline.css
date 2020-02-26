@@ -39,3 +39,10 @@
   background-color: var(--color-primary);
   text-decoration: none;
 }
+
+@media only screen and (min-width: 1000px) {
+  .timeline__event-group,
+  .timeline__range {
+    max-width: 500px;
+  }
+}

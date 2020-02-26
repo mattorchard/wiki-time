@@ -6,6 +6,7 @@ import useFormState from "../hooks/useFormState";
 import { formatYear, saveEntity } from "../helpers/entityHelpers";
 import "./EntityForm.css";
 import { useEffect } from "preact/hooks";
+import useDocumentEvent from "../hooks/useDocumentEvent";
 
 const submitSaveEntity = ({ uid, state }) => {
   if (!uid) {
@@ -84,6 +85,12 @@ const EntityForm = ({ selectedEntity, onRequestClose }) => {
       ),
     [selectedEntity]
   );
+
+  useDocumentEvent("keydown", event => {
+    if (event.key.toLowerCase() === "escape") {
+      onRequestClose();
+    }
+  });
 
   const handleSubmit = event => {
     event.preventDefault();

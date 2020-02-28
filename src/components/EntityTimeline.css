@@ -12,7 +12,7 @@
   grid-column: 1;
 }
 .timeline__range {
-  margin: 0.2rem;
+  margin: 0.2rem 0;
   padding: 0.2rem;
   border-left: 0.2rem solid;
   background-color: var(--color-primary);
@@ -34,7 +34,7 @@
   justify-content: center;
 }
 .timeline__event-item {
-  margin: 0.2rem 0.2rem 0.2rem 0;
+  margin: 0.2rem 0;
   padding: 0.2rem;
   background-color: var(--color-primary);
   text-decoration: none;

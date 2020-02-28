@@ -62,6 +62,7 @@ const EntityTimeline = ({ entities, startYear, endYear, onSelect }) => {
           year === 0 || (
             <div
               className="timeline__year-marker"
+              id={`${Math.abs(year)}${year > 0 ? "CE" : "BCE"}`}
               style={{
                 gridRowStart: year - startYear,
               }}

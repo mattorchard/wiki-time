@@ -7,11 +7,18 @@ const getClosestAncestorWithAttribute = (element, attribute) =>
     ? element.closest(`[${attribute}]`)
     : element.parentElement.closest(`[${attribute}]`);
 
-const formatYear = year => `${Math.abs(year)} ${year > 0 ? "CE" : "BCE"}`;
+const formatYear = (year, includeEra = true) => {
+  const yearText =
+    year % 1 === 0
+      ? Math.abs(year).toString()
+      : `${Math.abs(Math.floor(year))}/${Math.abs(Math.ceil(year))}`;
+  const era = year > 0 ? "CE" : "BCE";
+  return includeEra ? `${yearText} ${era}` : yearText;
+};
 
 const formatRange = (startYear, endYear) => {
   if (startYear > 0 === endYear > 0) {
-    return `${Math.abs(startYear)} - ${formatYear(endYear)}`;
+    return `${formatYear(startYear, false)} - ${formatYear(endYear)}`;
   }
   return `${formatYear(startYear)} - ${formatYear(endYear)}`;
 };

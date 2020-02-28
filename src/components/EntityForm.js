@@ -5,7 +5,7 @@ import useAuthState from "../hooks/useAuthState";
 import useFormState from "../hooks/useFormState";
 import { formatYear, saveEntity } from "../helpers/entityHelpers";
 import "./EntityForm.css";
-import { useEffect } from "preact/hooks";
+import { useEffect, useRef } from "preact/hooks";
 import useDocumentEvent from "../hooks/useDocumentEvent";
 
 const submitSaveEntity = ({ uid, state }) => {
@@ -75,6 +75,7 @@ const entityToState = ({
 });
 
 const EntityForm = ({ selectedEntity, onRequestClose }) => {
+  const isDirtyRef = useRef(false);
   const { currentUser } = useAuthState();
   const [state, setState, onInputFactory] = useFormState(initialState);
 
@@ -86,11 +87,15 @@ const EntityForm = ({ selectedEntity, onRequestClose }) => {
     [selectedEntity]
   );
 
-  useDocumentEvent("keydown", event => {
-    if (event.key.toLowerCase() === "escape") {
-      onRequestClose();
-    }
-  });
+  useDocumentEvent(
+    "keydown",
+    event => {
+      if (event.key.toLowerCase() === "escape" && !isDirtyRef.current) {
+        onRequestClose();
+      }
+    },
+    []
+  );
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -114,6 +119,7 @@ const EntityForm = ({ selectedEntity, onRequestClose }) => {
         className="entity-form"
         onSubmit={handleSubmit}
         onReset={handleReset}
+        onInput={() => (isDirtyRef.current = true)}
       >
         <InputField
           label="ID"

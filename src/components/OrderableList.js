@@ -76,8 +76,8 @@ const OrderableList = ({ items, isShowingAnswers }) => {
   const lastOverIndexRef = useRef(null);
 
   useEffect(() => setItemsOrdered(items), [items]);
-  useDocumentEvent("mouseup", () => setDraggingIndex(null));
-  useDocumentEvent("touchend", () => setDraggingIndex(null));
+  useDocumentEvent("mouseup", () => setDraggingIndex(null), []);
+  useDocumentEvent("touchend", () => setDraggingIndex(null), []);
 
   const reorderItems = overIndex => {
     if (lastOverIndexRef.current === overIndex) {

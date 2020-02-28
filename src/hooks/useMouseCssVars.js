@@ -18,9 +18,9 @@ const handleTouchMove = event => {
 };
 
 const useMouseCssVars = () => {
-  useDocumentEvent("mousemove", handleMouseMove);
-  useDocumentEvent("touchmove", handleTouchMove);
-  useDocumentEvent("touchstart", handleTouchMove);
-  useDocumentEvent("touchend", handleTouchMove);
+  useDocumentEvent("mousemove", handleMouseMove, []);
+  useDocumentEvent("touchmove", handleTouchMove, []);
+  useDocumentEvent("touchstart", handleTouchMove, []);
+  useDocumentEvent("touchend", handleTouchMove, []);
 };
 export default useMouseCssVars;

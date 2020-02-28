@@ -1,11 +1,10 @@
-import { useCallback, useEffect } from "preact/hooks";
+import { useEffect } from "preact/hooks";
 
-const useDocumentEvent = (eventType, callback) => {
-  const depSafeCallback = useCallback(callback, []);
+const useDocumentEvent = (eventType, callback, deps) => {
   useEffect(() => {
-    document.addEventListener(eventType, depSafeCallback);
-    return () => document.removeEventListener(eventType, depSafeCallback);
-  }, [eventType, depSafeCallback]);
+    document.addEventListener(eventType, callback);
+    return () => document.removeEventListener(eventType, callback);
+  }, [eventType, ...deps]);
 };
 
 export default useDocumentEvent;

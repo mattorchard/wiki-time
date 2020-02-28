@@ -101,7 +101,7 @@ const EntityTimeline = ({ entities, startYear, endYear, onSelect }) => {
       {ranges.map(range => (
         <a
           href="#"
-          className="timeline__range"
+          className="timeline__range chamfer"
           data-entity-id={range.id}
           style={{
             gridRowStart: Math.floor(range.startYear) - startYear,

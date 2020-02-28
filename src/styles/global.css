@@ -86,3 +86,14 @@ body {
   width: 15px;
   height: 15px;
 }
+.chamfer {
+  --chamfer-size: 1rem;
+  padding-right: var(--chamfer-size);
+  clip-path: polygon(
+    0% 0%,
+    calc(100% - var(--chamfer-size)) 0%,
+    100% var(--chamfer-size),
+    100% 100%,
+    0% 100%
+  );
+}

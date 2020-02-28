@@ -13,6 +13,7 @@
 }
 .timeline__range {
   margin: 0.2rem 0;
+  --chamfer-size: 1.5rem;
   padding: 0.2rem;
   border-left: 0.2rem solid;
   background-color: var(--color-primary);

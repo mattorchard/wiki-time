@@ -3,48 +3,21 @@
   flex-direction: column;
   margin-top: 1rem;
   align-items: center;
-}
-.match-quiz__header {
-  display: flex;
-  align-items: center;
-}
-.match-quiz__title {
-  font-size: 125%;
-  border-bottom: 0.2rem solid var(--color-primary);
-  margin: 1rem;
-}
-.match-quiz__description-list {
-  margin-top: 1rem;
-  display: grid;
-  grid-template-columns: 100%;
-  grid-gap: 1rem;
-  max-width: 1200px;
-  padding: 0.5rem;
+  --index-width: 100vw;
 }
 @media only screen and (min-width: 1000px) {
-  .match-quiz__description-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 1rem;
+  .match-quiz {
+    --index-width: 25vw;
   }
 }
-.match-quiz__description-list-item {
-  display: flex;
+.match-quiz__answer-card {
   position: relative;
 }
-.match-quiz__description-list__button {
-  width: 100%;
-  height: 100%;
-  text-align: left;
+.match-quiz__answer-card:last-child {
+  margin-bottom: 1em;
+}
+.match-quiz__description {
   white-space: pre-wrap;
-  border: 0.2rem solid var(--color-primary);
-  padding: 1rem;
-  transition: background-color 0.2s ease;
-}
-.match-quiz__description-list__button__content {
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-.match-quiz__description-list__button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  max-width: 800px;
+  margin-bottom: 1em;
 }

@@ -1,71 +1,72 @@
 import { useEffect, useMemo, useState } from "preact/hooks";
 import "./MatchQuiz.css";
 import MarkBadge from "./MarkBadge";
+import EntityIndex from "./EntityIndex";
+import EntityCard from "./EntityCard";
+import { Fragment } from "preact";
 
 const chooseRandom = array => Math.floor(Math.random() * array.length);
 
-const chooseEntitiesToMatch = (entities, amount) => {
+const chooseRandomEntityWithDescription = entities => {
   const possibleChoices = entities.filter(
     entity => entity.description && entity.description.trim()
   );
-  return new Array(amount).fill(null).map(() => {
-    const randomIndex = chooseRandom(possibleChoices);
-    const [entity] = possibleChoices.splice(randomIndex, 1);
-    return entity;
-  });
+  const randomIndex = chooseRandom(possibleChoices);
+  return possibleChoices[randomIndex];
 };
 
 const MatchQuiz = ({ entities }) => {
   const [questionNumber, setQuestionNumber] = useState(1);
-  const [isShowingAnswers, setIsShowingAnswers] = useState(false);
+  const [selectedEntity, setSelectedEntity] = useState(null);
 
-  useEffect(() => setIsShowingAnswers(false), [questionNumber]);
+  useEffect(() => setSelectedEntity(null), [questionNumber]);
 
-  const [answerEntity, questionEntities] = useMemo(() => {
-    const entitiesToMatch = chooseEntitiesToMatch(entities, 4);
-    const [answer] = entitiesToMatch;
-    const questions = entitiesToMatch.sort(
-      (a, b) => a.description.length - b.description.length
-    );
-    return [answer, questions];
-  }, [questionNumber]);
+  const answerEntity = useMemo(
+    () => chooseRandomEntityWithDescription(entities),
+    [questionNumber]
+  );
 
   if (!answerEntity) {
     return "You must have some entities with descriptions";
   }
 
+  const isShowingAnswers = Boolean(selectedEntity);
+  const isCorrect = isShowingAnswers && selectedEntity.id === answerEntity.id;
+  const handleSelect = selectedEntityId =>
+    setSelectedEntity(
+      entities.find(entity => entity.id === selectedEntityId) || null
+    );
+
   return (
     <div className="match-quiz">
-      <div className="match-quiz__header">
-        <h2 className="match-quiz__title">{answerEntity.name}</h2>
-        <button
-          type="button"
-          className="btn"
-          onClick={() =>
-            setQuestionNumber(questionNumber => questionNumber + 1)
-          }
-        >
-          Next Question
-        </button>
-      </div>
-      <ul className="match-quiz__description-list">
-        {questionEntities.map(({ id, description }) => (
-          <li key={id} className="match-quiz__description-list-item">
-            {isShowingAnswers && (
-              <MarkBadge isCorrect={id === answerEntity.id} />
-            )}
-            <button
-              type="button"
-              onClick={() => setIsShowingAnswers(true)}
-              className="non-btn match-quiz__description-list__button"
-            >
-              <div className="match-quiz__description-list__button__content">
-                {description}
-              </div>
-            </button>
-          </li>
-        ))}
-      </ul>
+      {isShowingAnswers ? (
+        <Fragment>
+          {isCorrect || (
+            <div className="match-quiz__answer-card">
+              <MarkBadge isCorrect={false} />
+              <EntityCard entity={selectedEntity} />
+            </div>
+          )}
+          <div className="match-quiz__answer-card">
+            <MarkBadge isCorrect={true} />
+            <EntityCard entity={answerEntity} />
+          </div>
+          <button
+            className="btn"
+            onClick={() =>
+              setQuestionNumber(questionNumber => questionNumber + 1)
+            }
+          >
+            Next Question
+          </button>
+        </Fragment>
+      ) : (
+        <p className="match-quiz__description">{answerEntity.description}</p>
+      )}
+
+      {isShowingAnswers || (
+        <EntityIndex entities={entities} onSelect={handleSelect} hideEmpty />
+      )}
     </div>
   );
 };

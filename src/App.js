@@ -30,9 +30,19 @@ firebase
 
 const routes = new Set(["order-quiz", "match-quiz", "import"]);
 
-const getLectureNumber = () => {
+const getUrlDetails = () => {
   const params = new URLSearchParams(window.location.search);
-  return parseInt(params.get("minLectureNumber")) || null;
+  if (params.has("lectureNumber")) {
+    const lectureNumber = parseInt(params.get("lectureNumber"));
+    return {
+      minLectureNumber: lectureNumber,
+      maxLectureNumber: lectureNumber,
+    };
+  }
+  return {
+    minLectureNumber: parseInt(params.get("minLectureNumber")) || null,
+    maxLectureNumber: parseInt(params.get("maxLectureNumber")) || null,
+  };
 };
 
 const App = () => {
@@ -41,7 +51,7 @@ const App = () => {
   const { loggedIn, currentUser } = useAuthState();
   const { loading, startYear, endYear, entities } = useTimeline(
     currentUser.uid,
-    getLectureNumber()
+    getUrlDetails()
   );
   const hash = useHash();
   const route = routes.has(hash) ? hash : "main";

@@ -36,7 +36,7 @@ const getTimelineBounds = entities => {
   };
 };
 
-const useTimeline = (uid, minLectureNumber) => {
+const useTimeline = (uid, { minLectureNumber, maxLectureNumber } = {}) => {
   const [meta, setMeta] = useState({ startYear: null, endYear: null });
   const [entities, setEntities] = useState(null);
 
@@ -45,8 +45,19 @@ const useTimeline = (uid, minLectureNumber) => {
       return noCleanup;
     }
     const handleSnap = formatEntitySnaps(entities => {
-      setEntities(entities);
-      setMeta(getTimelineBounds(entities));
+      let filteredEntities = entities;
+      if (minLectureNumber) {
+        filteredEntities = filteredEntities.filter(
+          entity => entity.lectureNumber >= minLectureNumber
+        );
+      }
+      if (maxLectureNumber) {
+        filteredEntities = filteredEntities.filter(
+          entity => entity.lectureNumber <= maxLectureNumber
+        );
+      }
+      setEntities(filteredEntities);
+      setMeta(getTimelineBounds(filteredEntities));
     });
 
     const collectionRef = firebase
@@ -54,13 +65,8 @@ const useTimeline = (uid, minLectureNumber) => {
       .collection("timelines")
       .doc("early-empire")
       .collection("entities");
-    if (minLectureNumber) {
-      return collectionRef
-        .where("lectureNumber", ">=", minLectureNumber)
-        .onSnapshot(handleSnap);
-    }
     return collectionRef.onSnapshot(handleSnap);
-  }, [uid]);
+  }, [uid, minLectureNumber, maxLectureNumber]);
 
   return {
     ...meta,

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useReducer } from "preact/hooks";
 import "./MatchQuiz.css";
 import MarkBadge from "./MarkBadge";
 import EntityIndex from "./EntityIndex";
@@ -16,60 +16,88 @@ const chooseRandomEntityWithDescription = entities => {
   return possibleChoices[randomIndex];
 };
 
-const MatchQuiz = ({ entities }) => {
-  const [questionNumber, setQuestionNumber] = useState(1);
-  const [selectedEntity, setSelectedEntity] = useState(null);
-  const [nextQuestionButtonRef, focusNextQuestionButton] = useFocusNextRef();
+const matchQuizReducer = entities => (state, action) => {
+  switch (action.type) {
+    case "selectEntity":
+      const { selectedEntity } = action;
+      return {
+        ...state,
+        selectedEntity,
+        isShowingAnswers: true,
+        isCorrect: selectedEntity.id === state.answerEntity.id,
+      };
+    case "nextQuestion":
+      return {
+        selectedEntity: null,
+        answerEntity: chooseRandomEntityWithDescription(entities),
+        isCorrect: null,
+        isShowingAnswers: false,
+      };
+    default:
+      return state;
+  }
+};
+const initializeMatchQuizState = entities => () => ({
+  selectedEntity: null,
+  answerEntity: chooseRandomEntityWithDescription(entities),
+  isCorrect: null,
+  isShowingAnswers: false,
+});
 
-  useEffect(() => setSelectedEntity(null), [questionNumber]);
-
-  const answerEntity = useMemo(
-    () => chooseRandomEntityWithDescription(entities),
-    [questionNumber]
+const useMatchQuiz = entities =>
+  useReducer(
+    matchQuizReducer(entities),
+    null,
+    initializeMatchQuizState(entities)
   );
 
-  if (!answerEntity) {
+const MatchQuiz = ({ entities }) => {
+  const [state, dispatch] = useMatchQuiz(entities);
+  const [nextQuestionButtonRef, focusNextQuestionButton] = useFocusNextRef();
+
+  if (!state.answerEntity) {
     return "You must have some entities with descriptions";
   }
 
-  const isShowingAnswers = Boolean(selectedEntity);
-  const isCorrect = isShowingAnswers && selectedEntity.id === answerEntity.id;
   const handleSelect = selectedEntityId => {
-    setSelectedEntity(
-      entities.find(entity => entity.id === selectedEntityId) || null
+    const selectedEntity = entities.find(
+      entity => entity.id === selectedEntityId
     );
-    focusNextQuestionButton();
+    if (selectedEntity) {
+      dispatch({ type: "selectEntity", selectedEntity });
+      focusNextQuestionButton();
+    }
   };
 
   return (
     <div className="match-quiz">
-      {isShowingAnswers ? (
+      {state.isShowingAnswers ? (
         <Fragment>
-          {isCorrect || (
+          {state.isCorrect || (
             <div className="match-quiz__answer-card">
               <MarkBadge isCorrect={false} />
-              <EntityCard entity={selectedEntity} />
+              <EntityCard entity={state.selectedEntity} />
             </div>
           )}
           <div className="match-quiz__answer-card">
             <MarkBadge isCorrect={true} />
-            <EntityCard entity={answerEntity} />
+            <EntityCard entity={state.answerEntity} />
           </div>
           <button
             ref={nextQuestionButtonRef}
             className="btn"
-            onClick={() =>
-              setQuestionNumber(questionNumber => questionNumber + 1)
-            }
+            onClick={() => dispatch({ type: "nextQuestion" })}
           >
             Next Question
           </button>
         </Fragment>
       ) : (
-        <p className="match-quiz__description">{answerEntity.description}</p>
+        <p className="match-quiz__description">
+          {state.answerEntity.description}
+        </p>
       )}
 
-      {isShowingAnswers || (
+      {state.isShowingAnswers || (
         <EntityIndex entities={entities} onSelect={handleSelect} hideEmpty />
       )}
     </div>

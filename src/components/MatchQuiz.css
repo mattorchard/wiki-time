@@ -12,6 +12,7 @@
 }
 .match-quiz__answer-card {
   position: relative;
+  margin: 0 1em;
 }
 .match-quiz__answer-card:last-child {
   margin-bottom: 1em;
@@ -20,4 +21,6 @@
   white-space: pre-wrap;
   max-width: 800px;
   margin-bottom: 1em;
+  padding: 1em;
+  border: 0.2em dashed var(--color-primary);
 }

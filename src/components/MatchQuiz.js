@@ -4,6 +4,7 @@ import MarkBadge from "./MarkBadge";
 import EntityIndex from "./EntityIndex";
 import EntityCard from "./EntityCard";
 import { Fragment } from "preact";
+import useFocusNextRef from "../hooks/useFocusNextRef";
 
 const chooseRandom = array => Math.floor(Math.random() * array.length);
 
@@ -18,6 +19,7 @@ const chooseRandomEntityWithDescription = entities => {
 const MatchQuiz = ({ entities }) => {
   const [questionNumber, setQuestionNumber] = useState(1);
   const [selectedEntity, setSelectedEntity] = useState(null);
+  const [nextQuestionButtonRef, focusNextQuestionButton] = useFocusNextRef();
 
   useEffect(() => setSelectedEntity(null), [questionNumber]);
 
@@ -32,10 +34,12 @@ const MatchQuiz = ({ entities }) => {
 
   const isShowingAnswers = Boolean(selectedEntity);
   const isCorrect = isShowingAnswers && selectedEntity.id === answerEntity.id;
-  const handleSelect = selectedEntityId =>
+  const handleSelect = selectedEntityId => {
     setSelectedEntity(
       entities.find(entity => entity.id === selectedEntityId) || null
     );
+    focusNextQuestionButton();
+  };
 
   return (
     <div className="match-quiz">
@@ -52,6 +56,7 @@ const MatchQuiz = ({ entities }) => {
             <EntityCard entity={answerEntity} />
           </div>
           <button
+            ref={nextQuestionButtonRef}
             className="btn"
             onClick={() =>
               setQuestionNumber(questionNumber => questionNumber + 1)

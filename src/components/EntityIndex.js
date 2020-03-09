@@ -3,11 +3,13 @@ import useDebouncedValue from "../hooks/useDebouncedValue";
 import useEntitySearch from "../hooks/useEntitySearch";
 import "./EntityIndex.css";
 import createBubbleHandler from "../helpers/handleBubble";
+import useFocusNextRef from "../hooks/useFocusNextRef";
 
 const EntityIndex = ({ entities, onSelect }) => {
   const [rawQuery, setRawQuery] = useState("");
   const query = useDebouncedValue(rawQuery);
   const searchResults = useEntitySearch(entities, query);
+  const [inputRef] = useFocusNextRef(true);
 
   return (
     <div className="entity-index">
@@ -16,6 +18,7 @@ const EntityIndex = ({ entities, onSelect }) => {
         onSubmit={event => event.preventDefault()}
       >
         <input
+          ref={inputRef}
           aria-label="Search entities"
           placeholder="Search entities"
           type="search"

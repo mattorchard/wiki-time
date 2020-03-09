@@ -9,12 +9,15 @@ const formatYear = year => {
   return `${Math.abs(firstYear)}/${Math.abs(firstYear + 1)} ${era}`;
 };
 
-const EntityCard = ({ entity }) => {
+const EntityCard = ({ entity, orderByStartYear = false }) => {
   const { name, description, startYear, endYear, lectureNumber } = entity;
   const hasStartYear = startYear || startYear === 0;
   const hasEndYear = endYear || endYear === 0;
   return (
-    <div className="entity-card">
+    <div
+      className="entity-card"
+      style={orderByStartYear && { order: startYear }}
+    >
       <div className="entity-card__header">
         <strong className="entity-card__title">{name}</strong>
         {hasStartYear && (

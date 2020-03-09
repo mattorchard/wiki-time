@@ -88,7 +88,7 @@ const OrderQuiz = ({ entities }) => {
       {isShowingAnswers && (
         <section className="order-quiz__entity-cards">
           {entitiesToOrder.map(entity => (
-            <EntityCard key={entity.id} entity={entity} />
+            <EntityCard key={entity.id} entity={entity} orderByStartYear />
           ))}
         </section>
       )}

@@ -71,7 +71,7 @@ const EntityTimeline = ({ entities, startYear, endYear, onSelect }) => {
               className="timeline__year-marker"
               id={`${Math.abs(year)}${year > 0 ? "CE" : "BCE"}`}
               style={{
-                gridRowStart: year - startYear,
+                gridRowStart: year - startYear + 1,
               }}
             >
               {formatYear(year)}
@@ -83,7 +83,7 @@ const EntityTimeline = ({ entities, startYear, endYear, onSelect }) => {
           className="timeline__event-group"
           style={{
             gridColumnStart: 2,
-            gridRowStart: Math.floor(groupStartYear) - startYear,
+            gridRowStart: Math.floor(groupStartYear) - startYear + 1,
           }}
         >
           {events.map(event => (
@@ -104,8 +104,8 @@ const EntityTimeline = ({ entities, startYear, endYear, onSelect }) => {
           className="timeline__range chamfer"
           data-entity-id={range.id}
           style={{
-            gridRowStart: Math.floor(range.startYear) - startYear,
-            gridRowEnd: Math.floor(range.endYear) - startYear,
+            gridRowStart: Math.floor(range.startYear) - startYear + 1,
+            gridRowEnd: Math.floor(range.endYear) - startYear + 1,
           }}
         >
           <span className="timeline-range__name">{range.name}</span>
